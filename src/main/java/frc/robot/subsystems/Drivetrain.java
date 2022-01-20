@@ -32,10 +32,6 @@ public class Drivetrain extends SubsystemBase {
   left2.follow(left1); 
   right2.follow(right1);
 
-  //Setting 2s inverted to 1s so that they don't break the gearboxes and actually spin.
-  left2.setInverted(true);
-  right2.setInverted(true);
-
   //Telling that we only care about the status of the 1s, and that we want to control them.
   drive = new DifferentialDrive(left1, right1);
   }
