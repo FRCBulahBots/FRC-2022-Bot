@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drivetrain landingGear = new Drivetrain(Constants.Drive1, Constants.Drive2, Constants.Drive3, Constants.Drive4);
+  private final Drivetrain landingGear = new Drivetrain();
 
   private final Joystick cockpit = new Joystick(Constants.usbport);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */

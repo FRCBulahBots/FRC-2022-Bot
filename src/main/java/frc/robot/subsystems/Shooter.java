@@ -17,7 +17,7 @@ These comments are meant for rookies to learn what the basic structure of the Su
 
 Psst. Rohan from 10PM on 1/20/22 here.
 THIS IS A PID-BASED SUBSYSTEM. Very special! And also somewhat wacky compared to the normal Subsystem
-Rohan from the past wants you to go look up: "PID Theory Explained" and go see the article from National Instruments, or NI.
+Rohan from the past wants you to go look up: "PID Theory Explained" and go see the article from PID Explained.com
 Try and get a grasp on it for yourself before Rohan from the future talks to you about it.
 
 */

@@ -21,22 +21,22 @@ public class Drivetrain extends SubsystemBase {
 
   //To-DO: Re-Change IDs to refer "Constants" here instead of in the Constructor everytime.
   //*Ask if we can switch to leader and follower terminology.
-  private WPI_TalonFX left1 = new WPI_TalonFX(left1ID);
-  private WPI_TalonFX left2 = new WPI_TalonFX(left2ID);
-  private WPI_TalonFX right1 = new WPI_TalonFX(right1ID);
-  private WPI_TalonFX right2 = new WPI_TalonFX(right2ID);
+  private WPI_TalonFX leftLeader = new WPI_TalonFX(Constants.Drive1);
+  private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.Drive2);
+  private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.Drive3);
+  private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.Drive4);
   
 
   //Differential Drive class which relates two motors to inputs.
   //Here we only control the 1s with the DifferentialDrive object; the 2s also follow their 1s.
-  private DifferentialDrive drive = new DifferentialDrive(left1, right1);;
+  private DifferentialDrive drive = new DifferentialDrive(leftLeader, rightLeader);;
 
   //Constructor method which runs everytime we refer to the class.
   public Drivetrain() {
 
   //Making "slave follow master", or in this case telling 2s to follow 1s.
-  left2.follow(left1); 
-  right2.follow(right1);
+  leftFollower.follow(leftLeader); 
+  rightFollower.follow(rightLeader);
 
   }
 
