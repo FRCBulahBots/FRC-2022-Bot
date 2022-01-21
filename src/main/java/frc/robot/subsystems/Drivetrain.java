@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 /*
 The Drivetrain subsystem is responsible for "driving" the robot around.
@@ -17,23 +18,26 @@ These comments are meant for rookies to learn what the basic structure of the Su
 public class Drivetrain extends SubsystemBase {
   //Referencing 4 TalonFXs, and a special object used for handling input to output
   //Basically "telling the computer we have four motor controllers and we'll be using them shortly"
-  private WPI_TalonFX left1, left2, right1, right2;
-  private DifferentialDrive drive;
 
-  //Constructor with specific CAN IDs to instantiate each motor controller
-  //Basically "telling the computer now these four motor controller you see with these IDs are the one we're talking about."
-  public Drivetrain(int left1ID, int left2ID, int right1ID, int right2ID) {
-  left1 = new WPI_TalonFX(left1ID);
-  left2 = new WPI_TalonFX(left2ID);
-  right1 = new WPI_TalonFX(right1ID);
-  right2 = new WPI_TalonFX(right2ID);
+  //To-DO: Re-Change IDs to refer "Constants" here instead of in the Constructor everytime.
+  //*Ask if we can switch to leader and follower terminology.
+  private WPI_TalonFX left1 = new WPI_TalonFX(left1ID);
+  private WPI_TalonFX left2 = new WPI_TalonFX(left2ID);
+  private WPI_TalonFX right1 = new WPI_TalonFX(right1ID);
+  private WPI_TalonFX right2 = new WPI_TalonFX(right2ID);
+  
+
+  //Differential Drive class which relates two motors to inputs.
+  //Here we only control the 1s with the DifferentialDrive object; the 2s also follow their 1s.
+  private DifferentialDrive drive = new DifferentialDrive(left1, right1);;
+
+  //Constructor method which runs everytime we refer to the class.
+  public Drivetrain() {
 
   //Making "slave follow master", or in this case telling 2s to follow 1s.
   left2.follow(left1); 
   right2.follow(right1);
 
-  //Telling that we only care about the status of the 1s, and that we want to control them.
-  drive = new DifferentialDrive(left1, right1);
   }
 
 
