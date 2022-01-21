@@ -17,7 +17,8 @@ public final class Constants {
     public static int Drive2 = 1;
     public static int Drive3 = 2;
     public static int Drive4 = 3;
-    
+    public static int shooterMotorID = 4;
+
     public static int usbport = 0;
 
 

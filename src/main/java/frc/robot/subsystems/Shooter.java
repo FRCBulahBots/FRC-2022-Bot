@@ -8,7 +8,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import frc.robot.Constants;
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /*
 The Shooter subsystem is built for 
@@ -22,23 +26,23 @@ Try and get a grasp on it for yourself before Rohan from the future talks to you
 
 */
 public class Shooter extends PIDSubsystem {
-    private final CANSparkMax shooterMotor;
-    private final SimpleMotorFeedforward feedforward;
+  private final CANSparkMax shooterMotor = new CANSparkMax (Constants.shooterMotorID, MotorType.kBrushless);
+
 
   public Shooter() {
-    super(new PIDController(kp, ki, kd, period));
-      
+    super(new PIDController(0.003, 0, 0));
+    shooterMotor.setIdleMode(IdleMode.kCoast);
+    setSetpoint(4000);  
   }
 
 @Override
 protected void useOutput(double output, double setpoint) {
-    // TODO Auto-generated method stub
+    shooterMotor.set(output + 0.1);
 }
 
 @Override
 protected double getMeasurement() {
-    // TODO Auto-generated method stub
-    return 0;
+    return shooterMotor.getEncoder().getVelocity();
 }
 
 
