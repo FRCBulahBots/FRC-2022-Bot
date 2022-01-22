@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.customtriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class ShooterTrigger extends Trigger{
