@@ -17,7 +17,7 @@ It uses the arcadeDrive method from DifferentialDrive in Drivetrain to control t
 These comments are meant for rookies to learn what the basic structure of the Command here should be.
 */
 
-public class Joysticktodrive extends CommandBase {
+public class JoystickToDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //Referencing the Drivetrain (we'll need a Drivetrain to drive... right?) and two Double Suppliers to refer to the continuously changing Joystick inputs.
   //basically telling the computer "We need a Drivetrain before we can call this command".
@@ -28,7 +28,7 @@ public class Joysticktodrive extends CommandBase {
 
   //Constructor with references of the drivetrain and joystick suppliers.
   //Basically "we need THESE things specifically."
-  public Joysticktodrive(Drivetrain subsystem, DoubleSupplier joyspeed, DoubleSupplier joyrotation) {
+  public JoystickToDrive(Drivetrain subsystem, DoubleSupplier joyspeed, DoubleSupplier joyrotation) {
     landing_gear = subsystem;
     this.joyspeed = joyspeed;
     this.joyrotation = joyrotation;

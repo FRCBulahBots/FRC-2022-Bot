@@ -8,7 +8,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.commands.Joysticktodrive;
+import frc.robot.subsystems.Shooter;
+import frc.robot.commands.JoystickToShoot;
+import frc.robot.commands.JoystickToDrive;
+import frc.robot.commands.ShooterTrigger;
 import edu.wpi.first.wpilibj.Joystick;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -19,13 +22,14 @@ import edu.wpi.first.wpilibj.Joystick;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain landingGear = new Drivetrain();
+  private final Shooter catapult = new Shooter();
 
   private final Joystick cockpit = new Joystick(Constants.usbport);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    landingGear.setDefaultCommand(new Joysticktodrive(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4)));
+    landingGear.setDefaultCommand(new JoystickToDrive(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4)));
 
   }
 
@@ -38,6 +42,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    new ShooterTrigger(cockpit.getRawAxis(5))
+      .whenActive(new JoystickToShoot(catapult));
 
   }
 
