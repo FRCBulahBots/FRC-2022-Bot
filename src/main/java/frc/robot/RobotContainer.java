@@ -13,47 +13,55 @@ import frc.robot.commands.JoystickToShoot;
 import frc.robot.customtriggers.ShooterTrigger;
 import frc.robot.commands.JoystickToDrive;
 import edu.wpi.first.wpilibj.Joystick;
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
+
+
+/*
+The Robot Container class is where all joysticks, subsystems, commands, and anything related to the Robot should be put in.
+This class is built for structuring our prior logic in code, so no logic or code should be put here.
+Makes it very easy to structure our robot up!
+These comments are meant for rookies to learn what the basic structure of the RobotContainer should be.
+*/
+
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+
+  //Subsystem references.
   private final Drivetrain landingGear = new Drivetrain();
   private final Shooter catapult = new Shooter();
 
+  //Joystick reference.
   private final Joystick cockpit = new Joystick(Constants.usbport);
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+
   public RobotContainer() {
-    // Configure the button bindings
+    // Configures the button bindings
     configureButtonBindings();
+
+    //Default command for our drive system to ALWAYS DRIVE IF WE DON'T ASK ANYTHING ELSE OF IT.
     landingGear.setDefaultCommand(new JoystickToDrive(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4)));
 
   }
 
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
+  /*
+  configureButtonBindings method.
+  Straight forward in what it does. 
+  it's binding buttons to our Commands. Duh.
+  All non-default commands should be asssigned here.
+  */
   private void configureButtonBindings() {
 
+    //Shooter toggle on the right trigger. Press once to enable, and another to disable.
     new ShooterTrigger(cockpit.getRawAxis(5))
-      .whenActive(new JoystickToShoot(catapult));
+      .toggleWhenActive(new JoystickToShoot(catapult));
 
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
+  /*
+  getAutonomousCommand.
+  Also very straight forward in what it does.
+  It calls our Auton command.
+  Our Autonomous Command should be here.
+  */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
     return null;
   }
 }

@@ -4,7 +4,12 @@
 
 package frc.robot.subsystems;
 
+import java.util.Collection;
+
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.music.Orchestra;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -26,6 +31,9 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.Drive3);
   private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.Drive4);
   
+  private Collection<TalonFX> talonsToPlay;
+
+  private Orchestra chrpExperiment = new Orchestra();
 
   //Differential Drive class which relates two motors to inputs.
   //Here we only control the 1s with the DifferentialDrive object; the 2s also follow their 1s.
@@ -38,6 +46,19 @@ public class Drivetrain extends SubsystemBase {
   leftFollower.follow(leftLeader); 
   rightFollower.follow(rightLeader);
 
+  talonsToPlay.add(leftLeader);
+  talonsToPlay.add(leftFollower);
+  talonsToPlay.add(rightLeader);
+  talonsToPlay.add(rightFollower);
+
+  //"C:\Users\durgu\Desktop\pain\FRC-2022-Bot\src\main\deploy"
+  chrpExperiment.loadMusic("C:/Users/durgu/Desktop/pain/FRC-2022-Bot/src/main/deploy/imperialMarchFile.chrp");
+
+  chrpExperiment.addInstrument(leftLeader);
+  chrpExperiment.addInstrument(rightLeader);
+  chrpExperiment.addInstrument(rightFollower);
+  chrpExperiment.addInstrument(leftFollower);
+
   }
 
 
@@ -46,10 +67,15 @@ public class Drivetrain extends SubsystemBase {
     drive.arcadeDrive(speed, rotation);
   }
 
-  /*
-  if we have time to, we can try adding chrp functionality.
-  public void chirp(){
+  
+  //if we have time to, we can try adding chrp functionality.
+  public void chirp(boolean stateToPlay){
+    if (stateToPlay){
+      chrpExperiment.play();
+    } else {
+      chrpExperiment.stop();
+    }
   }
-  */
+  
 
 }

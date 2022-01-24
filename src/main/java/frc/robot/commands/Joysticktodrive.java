@@ -28,13 +28,13 @@ public class JoystickToDrive extends CommandBase {
 
   //Constructor with references of the drivetrain and joystick suppliers.
   //Basically "we need THESE things specifically."
-  public JoystickToDrive(Drivetrain subsystem, DoubleSupplier joyspeed, DoubleSupplier joyrotation) {
-    landing_gear = subsystem;
+  public JoystickToDrive(Drivetrain landing_gear, DoubleSupplier joyspeed, DoubleSupplier joyrotation) {
+    this.landing_gear = landing_gear;
     this.joyspeed = joyspeed;
     this.joyrotation = joyrotation;
 
     //Forcing the computer to check if this subsystem is ready and able to be used.
-    addRequirements(subsystem);
+    addRequirements(landing_gear);
   }
 
   /*
@@ -67,6 +67,7 @@ public class JoystickToDrive extends CommandBase {
   //IsFinished method
   //This method actually determines the end-condition for the Command.
   //It should be false for most times as we typically "interrupt" our Commands to end them, but use it to set custom parameters you need to happen.
+  //Here we return false since we NEVER want to stop moving in the game.
   //Ex. Forcing a autonomous command to end when you drive a certain distance, or forcing a motor to stop if it gets too hot.
   @Override
   public boolean isFinished() {
