@@ -15,7 +15,7 @@ These comments are meant for rookies to learn what the basic structure of the Co
 public class JoystickToShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //referencing the Shooter, since we need it of course.
-  private Shooter catapult = new Shooter();
+  private Shooter catapult;
 
   //Constructor with only a reference of the shooter.
   //Basically "we need THIS thing specifically."
