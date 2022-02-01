@@ -22,7 +22,7 @@ public ShooterTrigger(double triggerValue){
 //Returns true if the trigger is pressed 60% of the way down, and false if not.
 @Override
 public boolean get() {
-    return triggerValue >= 0.6;
+    return (triggerValue >= 0.6);
 }
 
 }

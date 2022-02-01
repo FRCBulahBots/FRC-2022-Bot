@@ -30,10 +30,6 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.Drive2);
   private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.Drive3);
   private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.Drive4);
-  
-  private Collection<TalonFX> talonsToPlay;
-
-  private Orchestra chrpExperiment = new Orchestra();
 
   //Differential Drive class which relates two motors to inputs.
   //Here we only control the 1s with the DifferentialDrive object; the 2s also follow their 1s.
@@ -46,19 +42,8 @@ public class Drivetrain extends SubsystemBase {
   leftFollower.follow(leftLeader); 
   rightFollower.follow(rightLeader);
 
-  talonsToPlay.add(leftLeader);
-  talonsToPlay.add(leftFollower);
-  talonsToPlay.add(rightLeader);
-  talonsToPlay.add(rightFollower);
-
-  //"C:\Users\durgu\Desktop\pain\FRC-2022-Bot\src\main\deploy"
-  chrpExperiment.loadMusic("C:/Users/durgu/Desktop/pain/FRC-2022-Bot/src/main/deploy/imperialMarchFile.chrp");
-
-  chrpExperiment.addInstrument(leftLeader);
-  chrpExperiment.addInstrument(rightLeader);
-  chrpExperiment.addInstrument(rightFollower);
-  chrpExperiment.addInstrument(leftFollower);
-
+  rightLeader.setInverted(true);
+  rightFollower.setInverted(true);
   }
 
 
@@ -70,12 +55,10 @@ public class Drivetrain extends SubsystemBase {
   
   //if we have time to, we can try adding chrp functionality.
   public void chirp(boolean stateToPlay){
-    if (stateToPlay){
-      chrpExperiment.play();
-    } else {
-      chrpExperiment.stop();
-    }
   }
   
+@Override
+public void periodic() { 
+}
 
 }
