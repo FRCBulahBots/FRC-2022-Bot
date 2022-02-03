@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.customtriggers;
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
@@ -11,10 +13,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class ShooterTrigger extends Trigger{
     //we only need the trigger value of what specific trigger we need so we reference only that.
-    private double triggerValue;
+    private DoubleSupplier triggerValue;
 
 //Constructor method assigns our triggerValue to a specific trigger value we want.
-public ShooterTrigger(double triggerValue){
+public ShooterTrigger(DoubleSupplier triggerValue){
     this.triggerValue = triggerValue;
 }
 
@@ -22,7 +24,7 @@ public ShooterTrigger(double triggerValue){
 //Returns true if the trigger is pressed 60% of the way down, and false if not.
 @Override
 public boolean get() {
-    return (triggerValue >= 0.6);
+    return (triggerValue.getAsDouble() >= 0.6);
 }
 
 }

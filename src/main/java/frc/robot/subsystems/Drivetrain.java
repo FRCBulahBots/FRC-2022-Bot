@@ -9,7 +9,6 @@ import java.util.Collection;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.music.Orchestra;
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -42,8 +41,8 @@ public class Drivetrain extends SubsystemBase {
   leftFollower.follow(leftLeader); 
   rightFollower.follow(rightLeader);
 
-  rightLeader.setInverted(true);
-  rightFollower.setInverted(true);
+  leftLeader.setInverted(true);
+  leftFollower.setInverted(true);
   }
 
 
@@ -55,6 +54,10 @@ public class Drivetrain extends SubsystemBase {
   
   //if we have time to, we can try adding chrp functionality.
   public void chirp(boolean stateToPlay){
+  }
+
+  public double checkLeftEncoder(){
+    return leftLeader.getSelectedSensorPosition();
   }
   
 @Override
