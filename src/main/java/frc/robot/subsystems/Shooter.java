@@ -15,7 +15,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /*
-The Shooter subsystem is built for 
+The Shooter subsystem is built for... shooting the game piece!
 It is a single Neo controlled by a CANSparkMax to fling the gamepiece sky-high. 
 These comments are meant for rookies to learn what the basic structure of the Subsystem here should be.
 */
@@ -28,7 +28,7 @@ public class Shooter extends PIDSubsystem {
     //This is the PID Controller we use to control the Shooter Motor. 
     //We are trying to set the motor at a set RPM by using percent-output. (Notice we only use P here. Not I or D just because it's not necessary)
     //Math goes: P term * (setpoint - current measurement). here our P term is the only one definite.
-    //btw "super" refers to the empty PIDController in PIDSystem, hence we must define it here before using PID.
+    //btw "super" refers to the empty PIDController in PIDSubsystem, hence we must define it here before using PID.
     super(new PIDController(0.003, 0, 0));
 
     //might need to remove this line for brake idle.

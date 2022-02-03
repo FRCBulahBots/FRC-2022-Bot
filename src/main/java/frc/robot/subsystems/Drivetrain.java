@@ -4,12 +4,8 @@
 
 package frc.robot.subsystems;
 
-import java.util.Collection;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.music.Orchestra;
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -26,10 +22,10 @@ public class Drivetrain extends SubsystemBase {
 
   //To-DO: Re-Change IDs to refer "Constants" here instead of in the Constructor everytime.
   //*Ask if we can switch to leader and follower terminology.
-  private WPI_TalonFX leftLeader = new WPI_TalonFX(Constants.Drive1);
-  private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.Drive2);
-  private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.Drive3);
-  private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.Drive4);
+  private WPI_TalonFX leftLeader = new WPI_TalonFX(Constants.leftMasterDriveID);
+  private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.leftFollowerDriveID);
+  private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.rightMasterDriveID);
+  private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.rightFollowerDriveID);
 
   //Differential Drive class which relates two motors to inputs.
   //Here we only control the 1s with the DifferentialDrive object; the 2s also follow their 1s.
@@ -56,9 +52,6 @@ public class Drivetrain extends SubsystemBase {
   //if we have time to, we can try adding chrp functionality.
   public void chirp(boolean stateToPlay){
   }
-  
-@Override
-public void periodic() { 
-}
+
 
 }
