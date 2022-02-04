@@ -14,13 +14,13 @@ package frc.robot;
  */
 public final class Constants {
 
-    //Can IDs for DriveMotors, left master, then 
+    //Can IDs for DriveMotors
     public static int leftMasterDriveID = 0;
     public static int leftFollowerDriveID = 1;
     public static int rightMasterDriveID = 2;
     public static int rightFollowerDriveID = 3;
 
-
+    //SparkMaxIDs, aptly named
     public static int shooterMotorID = 7;
     public static int armMotorID = 8;
 

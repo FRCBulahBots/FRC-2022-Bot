@@ -37,6 +37,10 @@ public class JoystickToShoot extends CommandBase {
       catapult.disable();
   }
 
+  @Override
+  public boolean isFinished() {
+      return false;
+  }
   
 
 }

@@ -48,7 +48,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     //Shooter toggle on the right trigger. Press once to enable, and another to disable.
-    new ShooterTrigger(cockpit.getRawAxis(5))
+    new ShooterTrigger(() -> cockpit.getRawAxis(5))
       .toggleWhenActive(new JoystickToShoot(catapult));
 
   }
