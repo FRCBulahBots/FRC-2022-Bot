@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.DMC60;
+import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,10 +26,11 @@ public class Drivetrain extends SubsystemBase {
 
   //To-DO: Re-Change IDs to refer "Constants" here instead of in the Constructor everytime.
   //*Ask if we can switch to leader and follower terminology.
-  private WPI_TalonFX leftLeader = new WPI_TalonFX(Constants.Drive1);
-  private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.Drive2);
-  private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.Drive3);
-  private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.Drive4);
+  private WPI_TalonFX leftLeader = new WPI_TalonFX(Constants.leftMasterDriveID);
+  private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.leftFollowerDriveID);
+  private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.rightMasterDriveID);
+  private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.rightFollowerDriveID);
+  public DMC60 testPWM = new DMC60(Constants.PWNTest);
   private DigitalInput laser = new DigitalInput(0);
 
   //Differential Drive class which relates two motors to inputs.

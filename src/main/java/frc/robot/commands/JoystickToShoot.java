@@ -27,9 +27,9 @@ public class JoystickToShoot extends CommandBase {
   //A initialize method to enable the shooter since we only want to call the enable method once.
   @Override 
   public void initialize() {
-      catapult.setShooterMotor(0.3);
+    catapult.setShooterMotor(0.7);
+    
   }
-
   //And upon wanting to end the PID control, we disable it and reset the setpoint.
   @Override
   public void end(boolean interrupted) {
@@ -40,5 +40,6 @@ public class JoystickToShoot extends CommandBase {
   public boolean isFinished() {
       return false;
   }
+  
 
 }

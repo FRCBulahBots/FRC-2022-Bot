@@ -4,15 +4,17 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Magazine;
+import frc.robot.subsystems.Shooter;
 import frc.robot.commands.JoystickToShoot;
 import frc.robot.customtriggers.ShooterTrigger;
+import frc.robot.commands.JoystickToBelt1;
+import frc.robot.commands.JoystickToBelt2;
 import frc.robot.commands.JoystickToDrive;
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -29,6 +31,7 @@ public class RobotContainer {
   //Subsystem references.
   private final Drivetrain landingGear = new Drivetrain();
   private final Shooter catapult = new Shooter();
+  private final Magazine cargoBay = new Magazine();
 
   //Joystick reference.
   private final Joystick cockpit = new Joystick(Constants.usbport);
@@ -54,6 +57,16 @@ public class RobotContainer {
     //Shooter toggle on the right trigger. Press once to enable, and another to disable.
     new ShooterTrigger(() -> cockpit.getRawAxis(3))
       .toggleWhenActive(new JoystickToShoot(catapult));
+
+    new Button(() -> cockpit.getRawButton(1))
+      .whenHeld(new JoystickToBelt1(cargoBay));
+
+    new Button(() -> cockpit.getRawButton(2))
+      .whenHeld(new JoystickToBelt2(cargoBay));
+
+    //new Button( () -> cockpit.getRawButton(3))
+    //  .whenPressed(new FunctionalCommand(() -> landingGear.testPWM.set(0.3), null, landingGear.testPWM.set(0), isFinished, landingGear));
+      
 
   }
 
