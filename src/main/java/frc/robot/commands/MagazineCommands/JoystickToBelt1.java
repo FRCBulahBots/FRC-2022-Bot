@@ -1,25 +1,25 @@
-package frc.robot.commands;
+package frc.robot.commands.MagazineCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Magazine;
 
-public class JoystickToBelt2 extends CommandBase{
+public class JoystickToBelt1 extends CommandBase{
     
     public Magazine mag;
 
-    public JoystickToBelt2(Magazine mag) {
+    public JoystickToBelt1(Magazine mag) {
         this.mag = mag;
         addRequirements(mag);
     }
 
     @Override
     public void initialize() {
-        mag.belt2Speed(0.3);
+        mag.belt1Speed(0.3);
     }
 
     @Override
     public void end(boolean interrupted) { 
-        mag.belt2Speed(0);
+        mag.belt1Speed(0);
     }
 
 

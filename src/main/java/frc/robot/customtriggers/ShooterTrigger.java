@@ -20,7 +20,7 @@ public ShooterTrigger(DoubleSupplier triggerValue){
     this.triggerValue = triggerValue;
 }
 
-//A get method allows us to turn a trigger into a button.
+//A get method allows us to turn a trigger into a "button" of sorts.
 //Returns true if the trigger is pressed 60% of the way down, and false if not.
 @Override
 public boolean get() {
