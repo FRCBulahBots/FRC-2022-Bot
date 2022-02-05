@@ -12,10 +12,14 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.Shooter;
 import frc.robot.commands.JoystickToShoot;
+import frc.robot.commands.joysticktocontrolbeltexample;
 import frc.robot.customtriggers.ShooterTrigger;
 import frc.robot.commands.JoystickToBelt1;
 import frc.robot.commands.JoystickToBelt2;
 import frc.robot.commands.JoystickToDrive;
+
+import java.util.function.Consumer;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 
@@ -64,8 +68,8 @@ public class RobotContainer {
     new Button(() -> cockpit.getRawButton(2))
       .whenHeld(new JoystickToBelt2(cargoBay));
 
-    //new Button( () -> cockpit.getRawButton(3))
-    //  .whenPressed(new FunctionalCommand(() -> landingGear.testPWM.set(0.3), null, landingGear.testPWM.set(0), isFinished, landingGear));
+    new Button(() -> cockpit.getRawButton(3))
+      .whenPressed(new joysticktocontrolbeltexample(cargoBay));
       
 
   }

@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.DMC60;
@@ -30,8 +32,9 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.leftFollowerDriveID);
   private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.rightMasterDriveID);
   private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.rightFollowerDriveID);
-  public DMC60 testPWM = new DMC60(Constants.PWNTest);
-  private DigitalInput laser = new DigitalInput(0);
+  private Compressor c = new Compressor();
+ 
+  
 
   //Differential Drive class which relates two motors to inputs.
   //Here we only control the 1s with the DifferentialDrive object; the 2s also follow their 1s.
@@ -62,10 +65,9 @@ public class Drivetrain extends SubsystemBase {
   public double checkLeftEncoder(){
     return leftLeader.getSelectedSensorPosition();
   }
-  
-@Override
-public void periodic() { 
-  SmartDashboard.putBoolean("LaserBoolean", laser.get());
-}
 
+  @Override
+  public void periodic() {
+      c.enableDigital();
+  }
 }
