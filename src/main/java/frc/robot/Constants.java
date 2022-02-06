@@ -24,10 +24,14 @@ public final class Constants {
     public static int shooterMotorID = 7;
     public static int armMotorID = 8;
 
+    //Joystick Port
     public static int usbport = 0;
 
+    //PWM Port
     public static int PWNTest = 0;
 
-
+    //DIO Ports
+    public static int laser1port = 0;
+    public static int laser2port = 1;
 }
 

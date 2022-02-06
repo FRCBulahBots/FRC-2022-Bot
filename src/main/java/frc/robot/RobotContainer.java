@@ -5,21 +5,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.JoystickToShoot;
-import frc.robot.commands.joysticktocontrolbeltexample;
+import frc.robot.commands.DriveCommands.JoystickToDrive;
+import frc.robot.commands.MagazineCommands.JoystickToBelt1;
+import frc.robot.commands.MagazineCommands.JoystickToBelt2;
+import frc.robot.commands.MagazineCommands.joysticktocontrolbeltexample;
+import frc.robot.commands.ShootCommands.JoystickToShoot;
 import frc.robot.customtriggers.ShooterTrigger;
-import frc.robot.commands.JoystickToBelt1;
-import frc.robot.commands.JoystickToBelt2;
-import frc.robot.commands.JoystickToDrive;
-
-import java.util.function.Consumer;
-
 import edu.wpi.first.wpilibj.Joystick;
 
 
@@ -54,7 +49,7 @@ public class RobotContainer {
   configureButtonBindings method.
   Straight forward in what it does. 
   it's binding buttons to our Commands. Duh.
-  All non-default commands should be asssigned here.
+  All non-default commands should be assigned here.
   */
   private void configureButtonBindings() {
 

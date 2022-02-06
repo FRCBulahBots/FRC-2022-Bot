@@ -6,12 +6,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CameraServerCvJNI;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.DMC60;
-import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -20,6 +18,7 @@ import frc.robot.Constants;
 The Drivetrain subsystem is responsible for "driving" the robot around.
 It uses two gearboxes with four Falcon 500s total signaled by 4 Talon FX Motor Controllers.
 These comments are meant for rookies to learn what the basic structure of the Subsystem here should be.
+Written (mostly) by Ryan Wilks and Mason Pizzalato.
 */
 
 public class Drivetrain extends SubsystemBase {
@@ -32,7 +31,7 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.leftFollowerDriveID);
   private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.rightMasterDriveID);
   private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.rightFollowerDriveID);
-  private Compressor c = new Compressor();
+  //private Compressor c = new Compressor();
  
   
 
@@ -49,12 +48,14 @@ public class Drivetrain extends SubsystemBase {
 
   leftLeader.setInverted(true);
   leftFollower.setInverted(true);
+
+  CameraServer.startAutomaticCapture(0);
   }
 
 
   //A "setter" method to set the values of the motors using two doubles.
   public void arcadeDrive(double speed, double rotation){
-    drive.arcadeDrive(speed, rotation);
+    drive.arcadeDrive(speed, rotation, true);
   }
 
   
@@ -66,8 +67,10 @@ public class Drivetrain extends SubsystemBase {
     return leftLeader.getSelectedSensorPosition();
   }
 
+
   @Override
   public void periodic() {
-      c.enableDigital();
+    //c.enableDigital();
+    SmartDashboard.putNumber("LeftEncoderValue", this.checkLeftEncoder());
   }
 }

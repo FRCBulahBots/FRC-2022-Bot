@@ -13,16 +13,17 @@ public class Magazine extends SubsystemBase {
 
 private CANSparkMax Belt1 = new CANSparkMax(9, MotorType.kBrushless);
 private CANSparkMax Belt2 = new CANSparkMax(8, MotorType.kBrushless);
-public DigitalInput laser = new DigitalInput(0);
+
+private  DigitalInput laser1 = new DigitalInput(Constants.laser1port);
+private DigitalInput laser2 = new DigitalInput(Constants.laser2port);
 public DMC60 testPWM = new DMC60(Constants.PWNTest);
 
-public Magazine(){
-
-}
+public Magazine(){}
  
 @Override
 public void periodic() {
-    SmartDashboard.putBoolean("LaserBoolean", laser.get());
+    SmartDashboard.putBoolean("Ball in lowermagazine?", laser1.get());
+    SmartDashboard.putBoolean("Ball in uppermagazine?", laser2.get());
 }
 public void belt1Speed(double speed) {
     Belt1.set(speed);
@@ -36,5 +37,12 @@ public double getBelt1(){
     return Belt1.get();
 }
 
+public boolean getLaser1State(){
+    return !(laser1.get());
+}
+
+public boolean getLaser2State(){
+    return !(laser2.get());
+}
 
 }

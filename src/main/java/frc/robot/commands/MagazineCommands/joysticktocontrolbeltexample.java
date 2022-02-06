@@ -24,11 +24,8 @@ public class joysticktocontrolbeltexample extends CommandBase{
 
     @Override
     public boolean isFinished() {
-        return !(mag.laser.get());
+        return mag.getLaser1State();
     }
-
-
-
 
 
 }

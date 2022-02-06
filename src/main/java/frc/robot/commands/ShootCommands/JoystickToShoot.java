@@ -18,28 +18,21 @@ public class JoystickToShoot extends CommandBase {
   private Shooter catapult;
 
   //Constructor with only a reference of the shooter.
-  //Basically "we need THIS thing specifically."
   public JoystickToShoot(Shooter catapult) {
     this.catapult = catapult;
     addRequirements(catapult);
   }
 
-  //A initialize method to enable the shooter since we only want to call the enable method once.
+  //One time call for setting our motor's output; as of this commit 70%
   @Override 
   public void initialize() {
     catapult.setShooterMotor(0.7);
-    
   }
-  //And upon wanting to end the PID control, we disable it and reset the setpoint.
+
+  //Then after command ends, reset the motor to 0.
   @Override
   public void end(boolean interrupted) {
       catapult.setShooterMotor(0);
   }
-
-  @Override
-  public boolean isFinished() {
-      return false;
-  }
-  
 
 }

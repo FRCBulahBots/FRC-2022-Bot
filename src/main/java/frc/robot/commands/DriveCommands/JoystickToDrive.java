@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 /* 
-This "Joysticktodrive" command was written to connect the Joystick inputs to the Drivetrain subsystem.
+This "JoystickToDrive" command was written to connect the Joystick inputs to the Drivetrain subsystem.
 It uses the arcadeDrive method from DifferentialDrive in Drivetrain to control the motors of the drivetrain.
 These comments are meant for rookies to learn what the basic structure of the Command here should be.
 */
@@ -20,14 +20,12 @@ These comments are meant for rookies to learn what the basic structure of the Co
 public class JoystickToDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //Referencing the Drivetrain (we'll need a Drivetrain to drive... right?) and two Double Suppliers to refer to the continuously changing Joystick inputs.
-  //basically telling the computer "We need a Drivetrain before we can call this command".
   private final Drivetrain landing_gear;
   private DoubleSupplier joyspeed;
   private DoubleSupplier joyrotation;
 
 
   //Constructor with references of the drivetrain and joystick suppliers.
-  //Basically "we need THESE things specifically."
   public JoystickToDrive(Drivetrain landing_gear, DoubleSupplier joyspeed, DoubleSupplier joyrotation) {
     this.landing_gear = landing_gear;
     this.joyspeed = joyspeed;
@@ -37,11 +35,6 @@ public class JoystickToDrive extends CommandBase {
     addRequirements(landing_gear);
   }
 
-  /*
-  These four methods are INTEGRAL for the Command-Based Programming style. 
-  They also don't always need to be called all the time, and they have specific use cases for being called.
-  These empty methods with the comments can and most likely will be omitted in other Commands.
-  */
 
   //Initialize method
   //This method is called ONLY ONCE. Meaning it's used for one-time actions.
@@ -67,7 +60,6 @@ public class JoystickToDrive extends CommandBase {
   //IsFinished method
   //This method actually determines the end-condition for the Command.
   //It should be false for most times as we typically "interrupt" our Commands to end them, but use it to set custom parameters you need to happen.
-  //Here we return false since we NEVER want to stop moving in the game.
   //Ex. Forcing a autonomous command to end when you drive a certain distance, or forcing a motor to stop if it gets too hot.
   @Override
   public boolean isFinished() {
