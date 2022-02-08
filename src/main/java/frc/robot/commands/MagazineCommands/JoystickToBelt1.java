@@ -22,6 +22,10 @@ public class JoystickToBelt1 extends CommandBase{
         mag.belt1Speed(0);
     }
 
+    @Override
+    public boolean isFinished() {
+        return mag.getLaser1State();
+    }
 
 
 

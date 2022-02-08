@@ -33,9 +33,6 @@ public void belt2Speed(double speed){
     Belt2.set(speed);
 }
 
-public double getBelt1(){
-    return Belt1.get();
-}
 
 public boolean getLaser1State(){
     return !(laser1.get());
