@@ -14,18 +14,16 @@ public class joysticktocontrolbeltexample extends CommandBase{
 
     @Override
     public void initialize() {
-        mag.testPWM.set(0.3);
+        mag.belt1Speed(true);
+        mag.belt2Speed(true);
     }
 
     @Override
     public void end(boolean interrupted) { 
-        mag.testPWM.set(0);
+        mag.belt1Speed(false);
+        mag.belt2Speed(false);
     }
 
-    @Override
-    public boolean isFinished() {
-        return mag.getLaser1State();
-    }
 
 
 }

@@ -1,10 +1,11 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Magazine;
@@ -57,15 +58,25 @@ public class RobotContainer {
     new ShooterTrigger(() -> cockpit.getRawAxis(3))
       .toggleWhenActive(new JoystickToShoot(catapult));
 
+    /*
     new Button(() -> cockpit.getRawButton(1))
       .whenHeld(new JoystickToBelt1(cargoBay));
 
     new Button(() -> cockpit.getRawButton(2))
       .whenHeld(new JoystickToBelt2(cargoBay));
+    */
+
+    new Button(() -> cockpit.getRawButton(1))
+      .whenHeld(new StartEndCommand(() -> cargoBay.belt1Speed(true), () -> cargoBay.belt1Speed(false), cargoBay));
+      
+    new Button(() -> cockpit.getRawButton(2))
+      .whenHeld(new StartEndCommand(() -> cargoBay.belt2Speed(true), () -> cargoBay.belt2Speed(false), cargoBay));
 
     new Button(() -> cockpit.getRawButton(3))
-      .whenPressed(new joysticktocontrolbeltexample(cargoBay));
-      
+      .whenHeld(new joysticktocontrolbeltexample(cargoBay));
+
+    //new Button(() -> cockpit.getRawButton(4))
+      //.whenPressed(new ConditionalCommand(new JoystickToBelt1(cargoBay), new JoystickToBelt2(cargoBay), () -> cargoBay.getLaser2State()));
 
   }
 

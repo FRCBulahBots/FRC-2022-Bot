@@ -14,12 +14,12 @@ public class JoystickToBelt1 extends CommandBase{
 
     @Override
     public void initialize() {
-        mag.belt1Speed(0.3);
+        mag.belt1Speed(true);
     }
 
     @Override
     public void end(boolean interrupted) { 
-        mag.belt1Speed(0);
+        mag.belt1Speed(false);
     }
 
     @Override

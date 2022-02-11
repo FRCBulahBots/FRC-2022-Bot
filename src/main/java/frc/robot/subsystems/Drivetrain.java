@@ -7,8 +7,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CameraServerCvJNI;
+import edu.wpi.first.cscore.AxisCamera;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.cscore.AxisCamera;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,12 +33,11 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.rightMasterDriveID);
   private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.rightFollowerDriveID);
   //private Compressor c = new Compressor();
- 
-  
+  //private AxisCamera gamer = new AxisCamera("Gamering", host);
 
   //Differential Drive class which relates two motors to inputs.
   //Here we only control the 1s with the DifferentialDrive object; the 2s also follow their 1s.
-  private DifferentialDrive drive = new DifferentialDrive(leftLeader, rightLeader);;
+  private DifferentialDrive drive = new DifferentialDrive(leftLeader, rightLeader);
 
   //Constructor method which runs everytime we refer to the class.
   public Drivetrain() {
@@ -71,6 +71,6 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     //c.enableDigital();
-    SmartDashboard.putNumber("LeftEncoderValue", this.checkLeftEncoder());
+    //SmartDashboard.putNumber("LeftEncoderValue", this.checkLeftEncoder());
   }
 }
