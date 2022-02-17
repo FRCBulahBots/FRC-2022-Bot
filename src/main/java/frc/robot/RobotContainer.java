@@ -58,25 +58,28 @@ public class RobotContainer {
     new ShooterTrigger(() -> cockpit.getRawAxis(3))
       .toggleWhenActive(new JoystickToShoot(catapult));
 
-    /*
-    new Button(() -> cockpit.getRawButton(1))
-      .whenHeld(new JoystickToBelt1(cargoBay));
 
-    new Button(() -> cockpit.getRawButton(2))
-      .whenHeld(new JoystickToBelt2(cargoBay));
-    */
 
+    // A button hold to move the lower belt
     new Button(() -> cockpit.getRawButton(1))
       .whenHeld(new StartEndCommand(() -> cargoBay.belt1Speed(true), () -> cargoBay.belt1Speed(false), cargoBay));
-      
+      //.whenPressed(new JoystickToBelt1(cargoBay));
+
+    // B button hold to move the upper belt
     new Button(() -> cockpit.getRawButton(2))
       .whenHeld(new StartEndCommand(() -> cargoBay.belt2Speed(true), () -> cargoBay.belt2Speed(false), cargoBay));
+      //.whenPressed(new JoystickToBelt2(cargoBay));
 
+
+
+    // X button hold to move both belts
     new Button(() -> cockpit.getRawButton(3))
       .whenHeld(new joysticktocontrolbeltexample(cargoBay));
 
-    //new Button(() -> cockpit.getRawButton(4))
-      //.whenPressed(new ConditionalCommand(new JoystickToBelt1(cargoBay), new JoystickToBelt2(cargoBay), () -> cargoBay.getLaser2State()));
+    //Y Button to "index" balls by referring to the IR Sensor(s) near the belts.
+    new Button(() -> cockpit.getRawButton(4))
+      .whenPressed(new ConditionalCommand(new JoystickToBelt1(cargoBay), new JoystickToBelt2(cargoBay), () -> cargoBay.getLaser2State()));
+
 
   }
 

@@ -63,6 +63,7 @@ public class Drivetrain extends SubsystemBase {
   public void chirp(boolean stateToPlay){
   }
 
+  //Method to return the Left Master Encoder value, should be all we need to control the bot's motion.
   public double checkLeftEncoder(){
     return leftLeader.getSelectedSensorPosition();
   }

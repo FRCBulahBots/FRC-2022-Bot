@@ -31,7 +31,7 @@ public final class Constants {
     public static int PWNTest = 2;
 
     //DIO Ports
-    public static int laser1port = 1;
-    public static int laser2port = 2;
+    public static int laser1port = 0;
+    public static int laser2port = 1;
 }
 

@@ -21,7 +21,7 @@ These comments are meant for rookies to learn what the basic structure of the Su
 
 public class Shooter extends SubsystemBase {
   //Referencing and instantiating a single SparkMax, the motor controller for the Neo.
-  private final CANSparkMax shooterMotor = new CANSparkMax (Constants.shooterMotorID, MotorType.kBrushless);
+  private final CANSparkMax shooterMotor = new CANSparkMax (10, MotorType.kBrushless);
   private final SparkMaxPIDController shooterMotorPID;
 
   public Shooter() {
@@ -31,8 +31,7 @@ public class Shooter extends SubsystemBase {
     shooterMotorPID = shooterMotor.getPIDController();
 
     //P value is 0.00013, as we want to keep our percent output b/w 1 and -1
-    shooterMotorPID.setP(0.00013);
-
+    shooterMotorPID.setP(0.00014);
     shooterMotor.setIdleMode(IdleMode.kBrake);
   }
 
