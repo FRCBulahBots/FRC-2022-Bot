@@ -19,6 +19,8 @@ public final class Constants {
     public static int leftFollowerDriveID = 1;
     public static int rightMasterDriveID = 2;
     public static int rightFollowerDriveID = 3;
+    public static int belt1ID = 4;
+    public static int belt2ID = 5;
 
     //SparkMaxIDs, aptly named
     public static int shooterMotorID = 7;

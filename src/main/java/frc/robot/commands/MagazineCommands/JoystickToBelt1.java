@@ -3,7 +3,7 @@ package frc.robot.commands.MagazineCommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Magazine;
 
-public class JoystickToBelt1 extends CommandBase{
+public class JoystickToBelt1 extends CommandBase {
     
     public Magazine mag;
 
