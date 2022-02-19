@@ -22,17 +22,18 @@ These comments are meant for rookies to learn what the basic structure of the Su
 public class Shooter extends SubsystemBase {
   //Referencing and instantiating a single SparkMax, the motor controller for the Neo.
   private final CANSparkMax shooterMotor = new CANSparkMax (Constants.shooterMotorID, MotorType.kBrushless);
-  private final SparkMaxPIDController shooterMotorPID;
+  private SparkMaxPIDController shooterMotorPID = shooterMotor.getPIDController();
 
   public Shooter() {
     //This motor is special since we want some PID control to it.
     //PID = regulation of a value given another value.
     //We're using a desired value for RPM to regulate our motor's percent output THROUGH the SparkMax's PID controller..
-    shooterMotorPID = shooterMotor.getPIDController();
 
-    //P value is 0.00013, as we want to keep our percent output b/w 1 and -1
-    shooterMotorPID.setP(0.00014);
+    shooterMotorPID.setP(0.00001, 0);
+    shooterMotorPID.setFF(200, 0);
     shooterMotor.setIdleMode(IdleMode.kBrake);
+    
+    shooterMotor.burnFlash();
   }
 
 
@@ -43,15 +44,16 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("ShooterRPM", shooterMotor.getEncoder().getVelocity());
   }
 
-  public void setShooterMotor(double speedToSet){
+  public void setShooterMotorWithPID(double speedToSet){
     //speedToSet is a value b/w 1 and -1, we turn that into a certain RPM...
-    double setpoint = speedToSet * 5676;
+    double setpoint = (speedToSet * 5676);
 
     //... and set the Motor to aim for that RPM.
-    shooterMotorPID.setReference(setpoint, ControlType.kVelocity);
+    shooterMotorPID.setReference(setpoint, CANSparkMax.ControlType.kVelocity, 0);
   
   }
 
+  //Basic Setter Method for Shooter Speed.
   public void setShooter(double speedToSet){
     shooterMotor.set(speedToSet);
   }

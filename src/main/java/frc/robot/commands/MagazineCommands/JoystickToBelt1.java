@@ -15,7 +15,7 @@ public class JoystickToBelt1 extends CommandBase {
     @Override
     public void initialize() {
         //mag.belt1Speed(true);
-        mag.setBelt1(0.3);
+        //mag.setBelt1(0.3);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class JoystickToBelt1 extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return mag.getLaser1State();
+        return mag.getLaser1State() && mag.getLaser2State();
     }
 
 

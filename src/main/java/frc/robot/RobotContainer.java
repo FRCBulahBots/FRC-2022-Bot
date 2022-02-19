@@ -5,6 +5,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.subsystems.Drivetrain;
@@ -17,6 +18,7 @@ import frc.robot.commands.MagazineCommands.JoystickToBelt2;
 import frc.robot.commands.MagazineCommands.joysticktocontrolbeltexample;
 import frc.robot.commands.ShootCommands.JoystickToShoot;
 import frc.robot.customtriggers.ShooterTrigger;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 
 
@@ -46,7 +48,7 @@ public class RobotContainer {
     //Default command for our drive system to ALWAYS DRIVE IF WE DON'T ASK ANYTHING ELSE OF IT.
     landingGear.setDefaultCommand(new JoystickToDrive(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4)));
 
-    
+    CameraServer.startAutomaticCapture(0);
   }
 
 
@@ -84,9 +86,9 @@ public class RobotContainer {
       .whenHeld(new joysticktocontrolbeltexample(cargoBay));
 
     //Y Button to "index" balls by referring to the IR Sensor(s) near the belts.
-    //new Button(() -> cockpit.getRawButton(4))
+    new Button(() -> cockpit.getRawButton(4))
       //.whenPressed(new ConditionalCommand(new JoystickToBelt1(cargoBay), new JoystickToBelt2(cargoBay), () -> cargoBay.getLaser2State()));
-
+      .whenPressed(new ParallelDeadlineGroup(new JoystickToBelt1(cargoBay), new JoystickToBelt2(cargoBay)));
 
   }
 

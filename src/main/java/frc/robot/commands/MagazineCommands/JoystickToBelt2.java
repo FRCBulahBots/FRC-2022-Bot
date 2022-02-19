@@ -24,7 +24,6 @@ public class JoystickToBelt2 extends CommandBase{
     public void end(boolean interrupted) { 
         //mag.belt1Speed(false);
         //mag.belt2Speed(false);
-        mag.setBelt1(0);
         mag.setBelt2(0);
     }
 

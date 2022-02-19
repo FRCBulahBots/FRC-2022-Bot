@@ -15,8 +15,8 @@ public class Magazine extends SubsystemBase {
 //private CANSparkMax Belt1 = new CANSparkMax(9, MotorType.kBrushless);
 //private CANSparkMax Belt2 = new CANSparkMax(8, MotorType.kBrushless);
 
-private Relay belt1Relay = new Relay(0, Direction.kReverse);
-private Relay belt2Relay = new Relay(1, Direction.kForward);
+//private Relay belt1Relay = new Relay(0, Direction.kReverse);
+//private Relay belt2Relay = new Relay(1, Direction.kForward);
 
 //private CANSparkMax belt1 = new CANSparkMax(Constants.shooterMotorID, MotorType.kBrushless);
 //private CANSparkMax belt2 = new CANSparkMax(Constants.armMotorID, MotorType.kBrushless);
@@ -26,9 +26,10 @@ private WPI_TalonSRX belt2 = new WPI_TalonSRX(Constants.belt2ID);
 
 private DigitalInput laser1 = new DigitalInput(Constants.laser1port);
 private DigitalInput laser2 = new DigitalInput(Constants.laser2port);
-public DMC60 testPWM = new DMC60(Constants.PWNTest);
 
-public Magazine(){}
+public Magazine(){
+    belt1.setInverted(true);
+}
  
 @Override
 public void periodic() {
@@ -56,7 +57,7 @@ public void belt2Speed(boolean onOrOff){
 */
 
 public void setBelt1(double speed){
-    belt1.set(-speed);
+    belt1.set(speed);
 }
 
 public void setBelt2(double speed){

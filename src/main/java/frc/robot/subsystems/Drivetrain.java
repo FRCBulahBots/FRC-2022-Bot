@@ -5,11 +5,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.AxisCamera;
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.cscore.AxisCamera;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -49,7 +44,7 @@ public class Drivetrain extends SubsystemBase {
   leftLeader.setInverted(true);
   leftFollower.setInverted(true);
 
-  CameraServer.startAutomaticCapture(0);
+  
   }
 
 
