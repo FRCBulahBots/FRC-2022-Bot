@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.ShootCommands;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
@@ -16,23 +17,27 @@ public class JoystickToShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //referencing the Shooter, since we need it of course.
   private Shooter catapult;
+  private double valueToSet;
 
   //Constructor with only a reference of the shooter.
-  public JoystickToShoot(Shooter catapult) {
+  public JoystickToShoot(Shooter catapult, double valueToSet) {
     this.catapult = catapult;
+    this.valueToSet = valueToSet;
     addRequirements(catapult);
   }
 
   //One time call for setting our motor's output; as of this commit 70%
   @Override 
   public void initialize() {
-    catapult.setShooterMotorWithPID(0.3);
+    catapult.setShooterMotorWithPID(valueToSet);
   }
 
   //Then after command ends, reset the motor to 0.
   @Override
   public void end(boolean interrupted) {
     catapult.setShooterMotorWithPID(0);
+    
+    //catapult.beltLoaderVroom(0);
   }
 
 }

@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.I2C.Port;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -21,10 +23,14 @@ public final class Constants {
     public static int rightFollowerDriveID = 3;
     public static int belt1ID = 4;
     public static int belt2ID = 5;
+    public static int beltLoaderID = 6;
 
     //SparkMaxIDs, aptly named
     public static int shooterMotorID = 7;
     public static int armMotorID = 8;
+
+    //Gyro ID
+    public static int gyroID = 9;
 
     //Joystick Port
     public static int usbport = 0;
@@ -35,5 +41,7 @@ public final class Constants {
     //DIO Ports
     public static int laser1port = 0;
     public static int laser2port = 1;
+
+
 }
 

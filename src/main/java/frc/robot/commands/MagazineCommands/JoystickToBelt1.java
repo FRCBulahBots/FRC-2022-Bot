@@ -9,7 +9,7 @@ public class JoystickToBelt1 extends CommandBase {
 
     public JoystickToBelt1(Magazine mag) {
         this.mag = mag;
-        addRequirements(mag);
+        //addRequirements(mag);
     }
 
     @Override

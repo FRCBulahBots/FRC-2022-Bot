@@ -3,11 +3,11 @@ package frc.robot.commands.MagazineCommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Magazine;
 
-public class joysticktocontrolbeltexample extends CommandBase{
+public class JoystickToMoveBothBelts extends CommandBase{
     
     public Magazine mag;
 
-    public joysticktocontrolbeltexample(Magazine mag) {
+    public JoystickToMoveBothBelts(Magazine mag) {
         this.mag = mag;
         addRequirements(mag);
     }
@@ -16,8 +16,8 @@ public class joysticktocontrolbeltexample extends CommandBase{
     public void initialize() {
         //mag.belt1Speed(true);
         //mag.belt2Speed(true);
-        mag.setBelt1(-0.3);
-        mag.setBelt2(-0.3);
+        mag.setBelt1(-0.5);
+        mag.setBelt2(-0.5);
     }
 
     @Override

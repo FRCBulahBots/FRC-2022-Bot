@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.Pigeon2;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,10 +26,10 @@ public class Drivetrain extends SubsystemBase {
   //To-DO: Re-Change IDs to refer "Constants" here instead of in the Constructor everytime.
   //*Ask if we can switch to leader and follower terminology.
   private WPI_TalonFX leftLeader = new WPI_TalonFX(Constants.leftMasterDriveID);
-  private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.leftFollowerDriveID);
-  private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.rightMasterDriveID);
+  private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.rightMasterDriveID);
+  private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.leftFollowerDriveID);
   private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.rightFollowerDriveID);
-  //private Compressor c = new Compressor();
+  private Pigeon2 pigeonGyro = new Pigeon2(Constants.gyroID);
   //private AxisCamera gamer = new AxisCamera("Gamering", host);
 
   //Differential Drive class which relates two motors to inputs.
@@ -38,24 +40,17 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain() {
 
   //Making "slave follow master", or in this case telling 2s to follow 1s.
-  leftFollower.follow(leftLeader); 
-  rightFollower.follow(rightLeader);
+    leftFollower.follow(leftLeader); 
+    rightFollower.follow(rightLeader);
 
-  leftLeader.setInverted(true);
-  leftFollower.setInverted(true);
-
-  
+  //Sets the left side opposite of the right side. Since they both spin the same direction normally.
+  rightLeader.setInverted(true);
+  rightFollower.setInverted(true);
   }
-
 
   //A "setter" method to set the values of the motors using two doubles.
   public void arcadeDrive(double speed, double rotation){
-    drive.arcadeDrive(speed, rotation, true);
-  }
-
-  
-  //if we have time to, we can try adding chrp functionality.
-  public void chirp(boolean stateToPlay){
+    drive.arcadeDrive(0.7 * speed, 0.7 * rotation);
   }
 
   //Method to return the Left Master Encoder value, should be all we need to control the bot's motion.
@@ -66,7 +61,7 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //c.enableDigital();
     //SmartDashboard.putNumber("LeftEncoderValue", this.checkLeftEncoder());
+    SmartDashboard.putNumber("GyroData", pigeonGyro.getYaw());
   }
 }

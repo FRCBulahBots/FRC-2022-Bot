@@ -5,9 +5,7 @@
 package frc.robot.commands.DriveCommands;
 
 import frc.robot.subsystems.Drivetrain;
-
 import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -47,7 +45,7 @@ public class JoystickToDrive extends CommandBase {
   //Ex. Using the output of a control loop, or in this use case: matching joystick inputs. 
   @Override
   public void execute() {
-    landing_gear.arcadeDrive(joyspeed.getAsDouble(), joyrotation.getAsDouble());
+    landing_gear.arcadeDrive(joyspeed.getAsDouble(), -joyrotation.getAsDouble());
   }
 
   //End method

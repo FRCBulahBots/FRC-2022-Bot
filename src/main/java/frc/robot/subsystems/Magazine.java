@@ -1,13 +1,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Relay.Direction;
-import edu.wpi.first.wpilibj.motorcontrol.DMC60;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.ColorSensorV3;
 
 
 public class Magazine extends SubsystemBase {
@@ -27,6 +25,9 @@ private WPI_TalonSRX belt2 = new WPI_TalonSRX(Constants.belt2ID);
 private DigitalInput laser1 = new DigitalInput(Constants.laser1port);
 private DigitalInput laser2 = new DigitalInput(Constants.laser2port);
 
+private ColorSensorV3 color1 = new ColorSensorV3(Port.kOnboard);
+
+
 public Magazine(){
     belt1.setInverted(true);
 }
@@ -40,21 +41,6 @@ public void periodic() {
     //SmartDashboard.putNumber("Upper Belt Status ", belt2.get());
 }
 
-/*
-public void belt1Speed(boolean onOrOff) {
-    if (onOrOff) belt1Relay.set(Value.kOn);
-    else {
-        belt1Relay.set(Value.kOff);
-    }
-}
-
-public void belt2Speed(boolean onOrOff){
-    if (onOrOff) belt2Relay.set(Value.kOn);
-    else {
-        belt2Relay.set(Value.kOff);
-    }
-}
-*/
 
 public void setBelt1(double speed){
     belt1.set(speed);
