@@ -5,6 +5,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.subsystems.Drivetrain;
@@ -61,7 +62,7 @@ public class RobotContainer {
 
     //Shooter toggle on the right trigger. Press once to enable, and another to disable.
     new ShooterTrigger(() -> cockpit.getRawAxis(3))
-      .toggleWhenActive(new JoystickToShoot(catapult, -1000));
+      .toggleWhenActive(new JoystickToShoot(catapult, -0.4));
       //.toggleWhenActive(new StartEndCommand(() -> catapult.setShooter(0.6), () -> catapult.setShooter(0), catapult));
 
     //new Button(() -> cockpit.getRawButton(1))
@@ -75,7 +76,7 @@ public class RobotContainer {
       .toggleWhenPressed(new JoystickToMoveBothBelts(cargoBay));
 
     new Button(() -> cockpit.getRawButton(4))
-      .whenPressed(new SequentialCommandGroup(new JoystickToBelt1(cargoBay), new JoystickToBelt2(cargoBay)));
+      .whenPressed(new SequentialCommandGroup(new JoystickToBelt1(cargoBay), new JoystickToBelt2(cargoBay))/*.withInterrupt(() -> cockpit.getRawButton(4))*/);
 
   }
 
