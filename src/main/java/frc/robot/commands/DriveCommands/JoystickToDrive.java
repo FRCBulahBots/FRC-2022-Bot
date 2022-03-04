@@ -32,7 +32,7 @@ public class JoystickToDrive extends CommandBase {
     //Forcing the computer to check if this subsystem is ready and able to be used.
     addRequirements(landing_gear);
   }
-
+  
 
   //Initialize method
   //This method is called ONLY ONCE. Meaning it's used for one-time actions.

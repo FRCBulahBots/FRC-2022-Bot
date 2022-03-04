@@ -33,19 +33,20 @@ public class Drivetrain extends SubsystemBase {
   //private AxisCamera gamer = new AxisCamera("Gamering", host);
 
   //Differential Drive class which relates two motors to inputs.
-  //Here we only control the 1s with the DifferentialDrive object; the 2s also follow their 1s.
+  //Here we only control the leaders with the DifferentialDrive object.
   private DifferentialDrive drive = new DifferentialDrive(leftLeader, rightLeader);
 
   //Constructor method which runs everytime we refer to the class.
   public Drivetrain() {
 
-  //Making "slave follow master", or in this case telling 2s to follow 1s.
+    //Making "slave follow master", or in this case followers follow master.  
+    //This allows us to control all motors while making sure they act the same across the board.
     leftFollower.follow(leftLeader); 
     rightFollower.follow(rightLeader);
 
-  //Sets the left side opposite of the right side. Since they both spin the same direction normally.
-  rightLeader.setInverted(true);
-  rightFollower.setInverted(true);
+    //Sets the right side opposite of the left side. Since they both spin the same direction normally.
+    rightLeader.setInverted(true);
+    rightFollower.setInverted(true);
   }
 
   //A "setter" method to set the values of the motors using two doubles.
@@ -53,15 +54,23 @@ public class Drivetrain extends SubsystemBase {
     drive.arcadeDrive(0.7 * speed, 0.7 * rotation);
   }
 
+  public double getHeading(){
+    return Math.IEEEremainder(pigeonGyro.getYaw(), 360);
+  }
+
   //Method to return the Left Master Encoder value, should be all we need to control the bot's motion.
   public double checkLeftEncoder(){
     return leftLeader.getSelectedSensorPosition();
   }
 
-
+  //SmartDashboard data for encoder values and gyro rotation.
   @Override
   public void periodic() {
     //SmartDashboard.putNumber("LeftEncoderValue", this.checkLeftEncoder());
     SmartDashboard.putNumber("GyroData", pigeonGyro.getYaw());
+  }
+
+  public double clamp(double val, int min, int max) {
+    return Math.max(min ,Math.min(max, val));
   }
 }
