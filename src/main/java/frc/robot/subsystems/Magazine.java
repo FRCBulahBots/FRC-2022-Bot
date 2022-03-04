@@ -6,15 +6,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Magazine extends SubsystemBase {
-
-//private CANSparkMax Belt1 = new CANSparkMax(9, MotorType.kBrushless);
-//private CANSparkMax Belt2 = new CANSparkMax(8, MotorType.kBrushless);
-
-//private Relay belt1Relay = new Relay(0, Direction.kReverse);
-//private Relay belt2Relay = new Relay(1, Direction.kForward);
 
 //private CANSparkMax belt1 = new CANSparkMax(Constants.shooterMotorID, MotorType.kBrushless);
 //private CANSparkMax belt2 = new CANSparkMax(Constants.armMotorID, MotorType.kBrushless);
@@ -34,11 +29,11 @@ public Magazine(){
  
 @Override
 public void periodic() {
-    //SmartDashboard.putBoolean("Ball in Lower Belt?", laser1.get());
-    //SmartDashboard.putBoolean("Ball in Upper Belt?", laser2.get());
+    SmartDashboard.putBoolean("Ball in Lower Belt?", laser1.get());
+    SmartDashboard.putBoolean("Ball in Upper Belt?", laser2.get());
 
-    //SmartDashboard.putNumber("Lower Belt Status ", belt1.getMotorOutputPercent());
-    //SmartDashboard.putNumber("Upper Belt Status ", belt2.get());
+    SmartDashboard.putNumber("Lower Belt Status ", belt1.get());
+    SmartDashboard.putNumber("Upper Belt Status ", belt2.get());
 }
 
 

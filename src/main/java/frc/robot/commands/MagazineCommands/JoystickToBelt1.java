@@ -9,13 +9,12 @@ public class JoystickToBelt1 extends CommandBase {
 
     public JoystickToBelt1(Magazine mag) {
         this.mag = mag;
-        //addRequirements(mag);
+        addRequirements(mag);
     }
 
     @Override
     public void initialize() {
-        //mag.belt1Speed(true);
-        //mag.setBelt1(0.3);
+
     }
 
     @Override
@@ -26,7 +25,7 @@ public class JoystickToBelt1 extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return mag.getLaser1State() && mag.getLaser2State();
+        return mag.getLaser1State();
     }
 
 

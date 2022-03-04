@@ -6,6 +6,10 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+
+//Potential Climbing Subsystem.
+//May or may not be used in final version but a "prototype" of it.
+//hence the name.
 public class ProtoClimb extends SubsystemBase{
 
     private DoubleSolenoid climb1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
