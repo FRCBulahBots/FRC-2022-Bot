@@ -8,7 +8,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,10 +29,10 @@ public class Shooter extends PIDSubsystem{
   private final CANSparkMax shooterMotor = new CANSparkMax (Constants.shooterMotorID, MotorType.kBrushless);
   private SparkMaxPIDController shooterMotorPID = shooterMotor.getPIDController();
   private WPI_TalonSRX beltLoader = new WPI_TalonSRX(Constants.beltLoaderID);
-
-  public Shooter() {
   
-    super(new PIDController(0.009, 0 , 0 ,0.02));
+  
+  public Shooter() {
+    super(new PIDController(0.12, 0, 0));
     //This motor is special since we want some PID control to it.
     //PID = regulation of a value given another value using funky math.
     //We're using a desired value for percent output to a certain % output THROUGH the SparkMax's PID controller..
@@ -57,6 +56,7 @@ public class Shooter extends PIDSubsystem{
   public void periodic() { 
     //Reports the ShooterRPM to ShuffleBoard
     SmartDashboard.putNumber("ShooterRPM", shooterMotor.getEncoder().getVelocity());
+    SmartDashboard.putNumber("ShooterPercent", shooterMotor.get());
   }
 
   public void setShooterMotorWithPID(double speedToSet){
