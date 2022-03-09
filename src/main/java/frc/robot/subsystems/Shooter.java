@@ -59,22 +59,6 @@ public class Shooter extends PIDSubsystem{
     SmartDashboard.putNumber("ShooterPercent", shooterMotor.get());
   }
 
-  public void setShooterMotorWithPID(double speedToSet){
-    //speedToSet is a value b/w 1 and -1, we turn that into a certain percent output...
-    double setpoint = speedToSet / 5676;
-    //... and set the Motor to aim for that RPM.
-    shooterMotorPID.setReference(setpoint, CANSparkMax.ControlType.kDutyCycle, 0);
-  }
-
-
-  //Basic Setter Method for Shooter Speed.
-  public void setShooter(double speedToSet){
-    shooterMotor.set(speedToSet);
-  }
-
-  public void beltLoaderVroom(double setToSpeed){
-    beltLoader.set(setToSpeed);
-  }
 
   @Override
   protected void useOutput(double output, double setpoint) {

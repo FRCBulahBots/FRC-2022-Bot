@@ -63,13 +63,6 @@ public class RobotContainer {
     //Shooter toggle on the right trigger. Press once to enable, and another to disable.
     new ShooterTrigger(() -> cockpit.getRawAxis(3))
       .toggleWhenActive(new JoystickToShoot(catapult, -0.4));
-      //.toggleWhenActive(new StartEndCommand(() -> catapult.setShooter(0.6), () -> catapult.setShooter(0), catapult));
-
-    //new Button(() -> cockpit.getRawButton(1))
-      //.toggleWhenActive(new StartEndCommand(() -> catapult.beltLoaderVroom(-0.5), () -> catapult.beltLoaderVroom(0) , catapult));
-      
-    //new Button(() -> cockpit.getRawButton(6))
-     //.toggleWhenPressed(new StartEndCommand(() -> mount.setClimbState(true), () -> mount.setClimbState(false), mount));
 
     // X button hold to move both belts
     new Button(() -> cockpit.getRawButton(3))
