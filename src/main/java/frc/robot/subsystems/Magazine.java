@@ -1,11 +1,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -19,8 +17,6 @@ private WPI_TalonSRX belt2 = new WPI_TalonSRX(Constants.belt2ID);
 
 private DigitalInput laser1 = new DigitalInput(Constants.laser1port);
 private DigitalInput laser2 = new DigitalInput(Constants.laser2port);
-
-private ColorSensorV3 color1 = new ColorSensorV3(Port.kOnboard);
 
 
 public Magazine(){

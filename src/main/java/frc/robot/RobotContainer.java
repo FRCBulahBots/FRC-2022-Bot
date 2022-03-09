@@ -4,7 +4,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.subsystems.Drivetrain;
@@ -17,9 +17,6 @@ import frc.robot.commands.MagazineCommands.JoystickToBelt2;
 import frc.robot.commands.MagazineCommands.JoystickToMoveBothBelts;
 import frc.robot.commands.ShootCommands.JoystickToShoot;
 import frc.robot.customtriggers.ShooterTrigger;
-
-import javax.naming.PartialResultException;
-
 import edu.wpi.first.wpilibj.Joystick;
 
 
