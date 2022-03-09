@@ -23,21 +23,20 @@ public class JoystickToShoot extends CommandBase {
   public JoystickToShoot(Shooter catapult, double valueToSet) {
     this.catapult = catapult;
     this.valueToSet = valueToSet;
+    catapult.setSetpoint(valueToSet);
     addRequirements(catapult);
   }
 
   //One time call for setting our motor's output; as of this commit 70%
   @Override 
   public void initialize() {
-    catapult.setShooterMotorWithPID(valueToSet);
+    catapult.enable();
   }
 
   //Then after command ends, reset the motor to 0.
   @Override
   public void end(boolean interrupted) {
-    catapult.setShooterMotorWithPID(0);
-    
-    //catapult.beltLoaderVroom(0);
+    catapult.disable();
   }
 
 }
