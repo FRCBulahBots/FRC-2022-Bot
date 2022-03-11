@@ -4,8 +4,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -16,9 +16,8 @@ import frc.robot.subsystems.ProtoClimb;
 import frc.robot.subsystems.Shooter;
 import frc.robot.commands.DriveCommands.JoystickToDrive;
 import frc.robot.commands.DriveCommands.JoystickToDriveGyro;
-import frc.robot.commands.MagazineCommands.JoystickToBelt1;
-import frc.robot.commands.MagazineCommands.JoystickToBelt2;
-import frc.robot.commands.MagazineCommands.JoystickToMoveBothBelts;
+import frc.robot.commands.MagazineCommands.JoystickToLowerBelt;
+import frc.robot.commands.MagazineCommands.JoystickToUpperBelt;
 import frc.robot.commands.ShootCommands.JoystickToShoot;
 import frc.robot.customtriggers.ShooterTrigger;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -50,7 +49,7 @@ public class RobotContainer {
 
     //Default command for our drive system to ALWAYS DRIVE.
     //landingGear.setDefaultCommand(new JoystickToDrive(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4)));
-    landingGear.setDefaultCommand(new JoystickToDriveGyro(() -> cockpit.getRawAxis(1), landingGear.getHeading(), landingGear));
+    landingGear.setDefaultCommand(new JoystickToDriveGyro(landingGear,() -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4), landingGear.getHeading()));
 
     CameraServer.startAutomaticCapture(0);
   }
@@ -66,29 +65,30 @@ public class RobotContainer {
 
     //Shooter toggle on the right trigger. Press once to enable, and again to disable.
     new ShooterTrigger(() -> cockpit.getRawAxis(3))
-      .toggleWhenActive(new JoystickToShoot(catapult, -3000));
+      .toggleWhenActive(new JoystickToShoot(catapult, -3500));
+      //.toggleWhenActive(new StartEndCommand(() -> catapult.setShooter(0.6), () -> catapult.setShooter(0), catapult));
 
-  /*
-    // A button hold to move the lower belt
-    new Button(() -> cockpit.getRawButton(1))
-      .whenHeld(new StartEndCommand(() -> cargoBay.setBelt1(0.3), () -> cargoBay.setBelt1(0), cargoBay));
-      //.whenPressed(new JoystickToBelt1(cargoBay));
-
-    // B button hold to move the upper belt
-    new Button(() -> cockpit.getRawButton(2))
-      .whenHeld(new StartEndCommand(() -> cargoBay.setBelt2(0.3), () -> cargoBay.setBelt2(0), cargoBay));
-      //.whenPressed(new JoystickToBelt2(cargoBay));
-  */
-
-    // X button hold to move both belts
-    new Button(() -> cockpit.getRawButton(3))
-      .whenHeld(new JoystickToMoveBothBelts(cargoBay));
+    //new Button(() -> cockpit.getRawButton(2))
+      //.whenPressed(new JoysticktoDriveEncoded(landingGear, 144));
+    
+    //new Button(() -> cockpit.getRawButton(3))
+      //.whenPressed(new InstantCommand(() -> landingGear.resetEncoder(), landingGear));
 
     //Y Button to "index" balls by referring to the IR Sensor(s) near the belts.
     new Button(() -> cockpit.getRawButton(4))
-      //.whenPressed(new ConditionalCommand(new JoystickToBelt1(cargoBay), new JoystickToBelt2(cargoBay), () -> cargoBay.getLaser2State()));
-      .whenPressed(new SequentialCommandGroup(new JoystickToBelt2(cargoBay), new JoystickToBelt1(cargoBay)));
+      .toggleWhenActive(new SequentialCommandGroup(new JoystickToUpperBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(5)), new JoystickToLowerBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(5))));
 
+    //Bumpers to manage manual control of magazine.
+    new Button(() -> cockpit.getRawButton(5))
+      .whenHeld(new StartEndCommand(() -> cargoBay.moveBothBelts(0.3), () -> cargoBay.moveBothBelts(0), cargoBay));
+  
+    new Button(() -> cockpit.getRawButton(6))
+      .whenHeld(new StartEndCommand(() -> cargoBay.moveBothBelts(-0.3), () -> cargoBay.moveBothBelts(0), cargoBay));  
+
+    
+
+    
+  
   }
 
   /*

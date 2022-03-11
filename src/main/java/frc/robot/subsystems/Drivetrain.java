@@ -4,9 +4,9 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.Pigeon2;
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,6 +29,8 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.rightMasterDriveID);
   private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.leftFollowerDriveID);
   private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.rightFollowerDriveID);
+
+  //private WPI_TalonFX testMotor = new WPI_TalonFX(Constants.testMotorID);
   private Pigeon2 pigeonGyro = new Pigeon2(Constants.gyroID);
   //private AxisCamera gamer = new AxisCamera("Gamering", host);
 
@@ -58,15 +60,27 @@ public class Drivetrain extends SubsystemBase {
     return Math.IEEEremainder(pigeonGyro.getYaw(), 360);
   }
 
-  //Method to return the Left Master Encoder value, should be all we need to control the bot's motion.
-  public double checkLeftEncoder(){
-    return leftLeader.getSelectedSensorPosition();
+  /*
+
+  //Method to return the Left Master Encoder value, should be all we need to control the bot's auton motion.
+  public double checkTestEncoder(){
+    return testMotor.getSelectedSensorPosition();
   }
 
-  //SmartDashboard data for encoder values and gyro rotation.
+  public void setTest(double speed){
+    testMotor.set(ControlMode.PercentOutput, speed);
+  }
+  
+
+  public void resetEncoder(){
+    testMotor.setSelectedSensorPosition(0);
+  }
+
+  */
+
   @Override
   public void periodic() {
-    //SmartDashboard.putNumber("LeftEncoderValue", this.checkLeftEncoder());
+    //SmartDashboard.putNumber("LeftEncoderValue", this.checkTestEncoder());
     SmartDashboard.putNumber("GyroData", pigeonGyro.getYaw());
   }
 

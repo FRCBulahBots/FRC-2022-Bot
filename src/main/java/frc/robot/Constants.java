@@ -20,8 +20,8 @@ public final class Constants {
     public static int leftFollowerDriveID = 1;
     public static int rightMasterDriveID = 2;
     public static int rightFollowerDriveID = 3;
-    public static int belt1ID = 4;
-    public static int belt2ID = 5;
+    public static int upperBeltID = 4;
+    public static int lowerBeltID = 5;
     public static int beltLoaderID = 6;
 
     //SparkMaxIDs, aptly named
@@ -30,6 +30,8 @@ public final class Constants {
 
     //Gyro ID
     public static int gyroID = 9;
+
+    public static int climbID = 10;
 
     //Joystick Port
     public static int usbport = 0;

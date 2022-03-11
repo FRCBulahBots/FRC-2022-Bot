@@ -7,24 +7,47 @@ package frc.robot.commands.DriveCommands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class JoystickToDriveGyro extends PIDCommand {
+public class JoystickToDriveGyro extends CommandBase {
 
   Drivetrain drive;
+  PIDController gyroCorrection = new PIDController(0.009, 0, 0);
+  DoubleSupplier speed, rotation; 
+  double targetAngleDegrees;
+  double gyroCorrectedRotation;
 
-  public JoystickToDriveGyro(DoubleSupplier speed, double targetAngleDegrees, Drivetrain drive) {
-    super(
-        new PIDController(0.009,0,0),
-        drive::getHeading,
-        targetAngleDegrees,
-        output -> drive.arcadeDrive(speed.getAsDouble(), drive.clamp(output,-1,1)),
-        drive);
-
-    getController().enableContinuousInput(-180, 180);
+  public JoystickToDriveGyro(Drivetrain drive, DoubleSupplier speed, DoubleSupplier rotation, double targetAngleDegrees) {
+    this.drive = drive;
+    this.speed = speed;
+    this.rotation = rotation;
     
+    this.targetAngleDegrees = targetAngleDegrees;
+    //gyroCorrection.enableContinuousInput(-360, 360);
+    addRequirements(drive);
+  }
+
+  @Override
+  public void execute() {
+
+    if(Math.abs(rotation.getAsDouble()) > 0.3){
+
+      if ((rotation.getAsDouble() < -0.3)){
+        gyroCorrectedRotation = drive.clamp(gyroCorrection.calculate(drive.getHeading(), targetAngleDegrees), -1, 1);
+      } 
+      
+      if((rotation.getAsDouble() > 0.3)){
+        gyroCorrectedRotation = drive.clamp(gyroCorrection.calculate(drive.getHeading(), -targetAngleDegrees), 1, -1);
+      }
+
+    } else {
+      gyroCorrectedRotation = drive.clamp(rotation.getAsDouble(), -1, 1);
+    }
+    
+    drive.arcadeDrive(speed.getAsDouble(), gyroCorrectedRotation);
   }
 
   @Override

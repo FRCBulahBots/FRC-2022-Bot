@@ -26,7 +26,7 @@ These comments are meant for rookies to learn what the basic structure of the Su
 
 public class Shooter extends SubsystemBase {
   //Referencing and instantiating a single SparkMax, the motor controller for the Neo.
-  private final CANSparkMax shooterMotor = new CANSparkMax (Constants.shooterMotorID, MotorType.kBrushless);
+  private final CANSparkMax shooterMotor = new CANSparkMax (8, MotorType.kBrushless);
   private SparkMaxPIDController shooterMotorPID = shooterMotor.getPIDController();
   private WPI_TalonSRX beltLoader = new WPI_TalonSRX(Constants.beltLoaderID);
 
