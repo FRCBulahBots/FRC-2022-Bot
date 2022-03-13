@@ -29,6 +29,7 @@ public final class Constants {
 
     //Gyro ID
     public static int gyroID = 9;
+    public static int climbID = 10;
 
     //Joystick Port
     public static int usbport = 0;
