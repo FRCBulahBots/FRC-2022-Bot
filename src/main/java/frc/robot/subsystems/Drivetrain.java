@@ -4,12 +4,16 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
+
+
 
 /*
 The Drivetrain subsystem is responsible for "driving" the robot around.
@@ -18,45 +22,89 @@ These comments are meant for rookies to learn what the basic structure of the Su
 */
 
 public class Drivetrain extends SubsystemBase {
-  //Referencing 4 TalonFXs, and a special object used for handling input to output
-  //Basically "telling the computer we have four motor controllers and we'll be using them shortly"
+
+  /*Referencing 4 TalonFXs on Falcon 500s, these motors have their motor controllers on top of motor.*/
   private WPI_TalonFX leftLeader = new WPI_TalonFX(Constants.leftMasterDriveID);
   private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.rightMasterDriveID);
   private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.leftFollowerDriveID);
   private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.rightFollowerDriveID);
-  private Pigeon2 pigeonGyro = new Pigeon2(Constants.gyroID);
 
-  //Differential Drive class which relates two motors to inputs.
-  //Here we only control the 1s with the DifferentialDrive object; the 2s also follow their 1s.
+  
+  private WPI_TalonFX testMotor = new WPI_TalonFX(11);
+  //change ID please
+
+  /*Gyro, which we read values to */
+  private Pigeon2 pigeonGyro = new Pigeon2(Constants.gyroID);
+  
+  
+  /*Differential Drive class which relates two motors to inputs.
+  Here we only control the leaders with the DifferentialDrive object.*/
   private DifferentialDrive drive = new DifferentialDrive(leftLeader, rightLeader);
 
-  //Constructor method which runs everytime we refer to the class.
+  /* Constructor method which runs everytime we refer to the class. */
+  
   public Drivetrain() {
 
-    //Making "slave follow master", or in this case telling 2s to follow 1s.
+  /*Making "slave follow master", or in this case followers follow master.  
+  This allows us to control all motors while making sure they act the same across the board.*/
     leftFollower.follow(leftLeader); 
     rightFollower.follow(rightLeader);
 
-    //Sets the left side opposite of the right side. Since they both spin the same direction normally.
+  /*Sets the right side opposite of the left side. Since they both spin the same direction normally.*/
     rightLeader.setInverted(true);
     rightFollower.setInverted(true);
   }
 
-  //A "setter" method to set the values of the motors using two doubles.
-  //Set at 70% for now.
+  /* end of constructor method */
+
+
+  /*main Driving method; takes two doubles and does a lot of math to figure out a combination of motor speeds*/
   public void arcadeDrive(double speed, double rotation){
     drive.arcadeDrive(0.7 * speed, 0.7 * rotation);
   }
 
-
-  //Method to return the Left Master Encoder value, should be all we need to control the bot's auton motion.
-  public double checkLeftEncoder(){
-    return leftLeader.getSelectedSensorPosition();
+  /*method to return the turning "angle" of the bot. 
+  Yaw (rotation along the vertical axis of the bot) / 360 = some value we don't care about as much as:
+  THE REMAINDER OF THIS DIVISION gives us the actual angle between (-360, 360)*/
+  public double getHeading(){
+    return Math.IEEEremainder(pigeonGyro.getYaw(), 360);
   }
+
+  /*method to set the Gyro to a specific value.
+  mainly used to reset the Gyro to 0, as to reorient the bot.*/
+  public void setGyro(double value){
+    pigeonGyro.setYaw(value);
+  }
+  
+  public void setTest(double speed){
+    testMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+
+  /*method to check encoder values.
+  as of this commit, this is on a test motor, not drivetrain motors.*/
+  public double checkTestEncoder(){
+    return testMotor.getSelectedSensorPosition();
+  }
+  
+  /*method to change encoder values.
+  mainly used to reset encoders to 0, as to reset distance travelled by the bot.
+  as of this commit, this is on a test motor, not drivetrain motors.*/
+  public void resetEncoder(){
+    testMotor.setSelectedSensorPosition(0);
+  }
+
+  
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("LeftEncoderValue", this.checkLeftEncoder());
+    SmartDashboard.putNumber("LeftEncoderValue", this.checkTestEncoder());
     SmartDashboard.putNumber("GyroData", pigeonGyro.getYaw());
+  }
+
+  /*method to clamp results within a max and min.
+  copied from FRC 2018's drive and used primarily in JoystickToDriveGyro*/
+  public double clamp(double val, int min, int max) {
+    return Math.max(min ,Math.min(max, val));
   }
 }

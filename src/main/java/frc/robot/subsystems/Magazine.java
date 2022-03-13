@@ -9,9 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Magazine extends SubsystemBase {
 
-//private CANSparkMax belt1 = new CANSparkMax(Constants.shooterMotorID, MotorType.kBrushless);
-//private CANSparkMax belt2 = new CANSparkMax(Constants.armMotorID, MotorType.kBrushless);
-
 private WPI_TalonSRX belt1 = new WPI_TalonSRX(Constants.belt1ID);
 private WPI_TalonSRX belt2 = new WPI_TalonSRX(Constants.belt2ID);
 
@@ -30,6 +27,11 @@ public void periodic() {
 
     SmartDashboard.putNumber("Lower Belt Status ", belt1.get());
     SmartDashboard.putNumber("Upper Belt Status ", belt2.get());
+}
+
+public void setBothBelts(double speed){
+    belt1.set(speed);
+    belt2.set(speed);
 }
 
 
