@@ -3,8 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.ShootCommands;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Shooter;
 
 /* 
@@ -29,15 +29,20 @@ public class JoystickToShoot extends CommandBase {
   //One time call for setting our motor's output; as of this commit 70%
   @Override 
   public void initialize() {
-    catapult.setShooterMotorWithPID(valueToSet);
+    //catapult.setShooterMotorWithPID(valueToSet);
+    catapult.enable();
+    catapult.setSetpoint(valueToSet);
+    new WaitCommand(1).andThen(() -> catapult.beltLoaderVroom(0.5), catapult);
+    
   }
 
   //Then after command ends, reset the motor to 0.
   @Override
   public void end(boolean interrupted) {
-    catapult.setShooterMotorWithPID(0);
-    
-    //catapult.beltLoaderVroom(0);
+    //catapult.setShooterMotorWithPID(0);
+    catapult.disable();
+    catapult.beltLoaderVroom(0);
+  
   }
 
 }

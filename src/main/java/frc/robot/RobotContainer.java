@@ -4,22 +4,20 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.ProtoClimb;
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.DriveCommands.JoystickToDrive;
-import frc.robot.commands.MagazineCommands.JoystickToBelt1;
-import frc.robot.commands.MagazineCommands.JoystickToBelt2;
+import frc.robot.commands.ClimbCommands.JoystickToClimb;
+import frc.robot.commands.DriveCommands.JoystickToDriveGyro;
+import frc.robot.commands.MagazineCommands.JoystickToLowerBelt;
 import frc.robot.commands.MagazineCommands.JoystickToMoveBothBelts;
+import frc.robot.commands.MagazineCommands.JoystickToUpperBelt;
 import frc.robot.commands.ShootCommands.JoystickToShoot;
 import frc.robot.customtriggers.ShooterTrigger;
-
-import javax.naming.PartialResultException;
-
 import edu.wpi.first.wpilibj.Joystick;
 
 
@@ -36,7 +34,7 @@ public class RobotContainer {
   private final Drivetrain landingGear = new Drivetrain();
   private final Shooter catapult = new Shooter();
   private final Magazine cargoBay = new Magazine();
-  //private final ProtoClimb mount = new ProtoClimb();
+  private final ProtoClimb mount = new ProtoClimb();
  
 
   //Joystick reference.
@@ -47,7 +45,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     //Default command for our drive system to ALWAYS DRIVE IF WE DON'T ASK ANYTHING ELSE OF IT.
-    landingGear.setDefaultCommand(new JoystickToDrive(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4)));
+    landingGear.setDefaultCommand(new JoystickToDriveGyro(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4), landingGear.getHeading()));
 
   }
 
@@ -61,22 +59,30 @@ public class RobotContainer {
 
     //Shooter toggle on the right trigger. Press once to enable, and another to disable.
     new ShooterTrigger(() -> cockpit.getRawAxis(3))
-      .toggleWhenActive(new JoystickToShoot(catapult, -1000));
-      //.toggleWhenActive(new StartEndCommand(() -> catapult.setShooter(0.6), () -> catapult.setShooter(0), catapult));
+      .toggleWhenActive(new JoystickToShoot(catapult, -0.7));
 
-    //new Button(() -> cockpit.getRawButton(1))
-      //.toggleWhenActive(new StartEndCommand(() -> catapult.beltLoaderVroom(-0.5), () -> catapult.beltLoaderVroom(0) , catapult));
-      
-    //new Button(() -> cockpit.getRawButton(6))
-     //.toggleWhenPressed(new StartEndCommand(() -> mount.setClimbState(true), () -> mount.setClimbState(false), mount));
+
+    //Y Button to "index" balls by referring to the IR Sensor(s) near the belts.
+    new Button(() -> cockpit.getRawButton(4))
+      .toggleWhenActive(new SequentialCommandGroup(new JoystickToUpperBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(5)), new JoystickToLowerBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(5))));
 
     // X button hold to move both belts
     new Button(() -> cockpit.getRawButton(3))
-      .toggleWhenPressed(new JoystickToMoveBothBelts(cargoBay));
+      .toggleWhenPressed(new JoystickToMoveBothBelts(cargoBay, -0.5));
 
-    new Button(() -> cockpit.getRawButton(4))
-      .whenPressed(new SequentialCommandGroup(new JoystickToBelt1(cargoBay), new JoystickToBelt2(cargoBay)));
+    new POVButton(cockpit, 0)
+      .whenHeld(new JoystickToClimb(mount, 0.3));
+    
+    new POVButton(cockpit, 180)
+      .whenHeld(new JoystickToClimb(mount, -0.3));
 
+    //new Button(() -> cockpit.getRawButton(2))
+      //.whenPressed(new JoysticktoDriveEncoded(landingGear, 144));
+    
+    //new Button(() -> cockpit.getRawButton(3))
+      //.whenPressed(new InstantCommand(() -> landingGear.resetEncoder(), landingGear));
+    
+  
   }
 
   /*
