@@ -2,55 +2,59 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.DriveCommands;
+package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import com.fasterxml.jackson.databind.node.BooleanNode;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Drivetrain;
-
 
 public class JoystickToDriveGyro extends CommandBase {
 
   Drivetrain drive;
-  PIDController gyroCorrection = new PIDController(0.009, 0, 0);
-  DoubleSupplier speed, rotation; 
+  PIDController gyroCorrection = new PIDController(0.03, 0.019, 0.00069);
+  DoubleSupplier speed, rotation;
   double targetAngleDegrees;
-  double gyroCorrectedRotation;
+  boolean Auton, gyroNeedsReset;
+  boolean lastIsDriverSteering;
 
-  public JoystickToDriveGyro(Drivetrain drive, DoubleSupplier speed, DoubleSupplier rotation, double targetAngleDegrees) {
+  public JoystickToDriveGyro(Drivetrain drive, DoubleSupplier speed, DoubleSupplier rotation, double targetAngleDegrees,
+      boolean Auton) {
     this.drive = drive;
     this.speed = speed;
     this.rotation = rotation;
-    
+    this.Auton = Auton;
+
     this.targetAngleDegrees = targetAngleDegrees;
-    //gyroCorrection.enableContinuousInput(-360, 360);
+    // gyroCorrection.enableContinuousInput(-360, 360);
     addRequirements(drive);
   }
 
   @Override
-  public void execute() {
-
-    if(Math.abs(rotation.getAsDouble()) > 0.3){
-
-      if ((rotation.getAsDouble() < -0.3)){
-        gyroCorrectedRotation = drive.clamp(gyroCorrection.calculate(drive.getHeading(), targetAngleDegrees), -1, 1);
-      } 
-      
-      if((rotation.getAsDouble() > 0.3)){
-        gyroCorrectedRotation = drive.clamp(gyroCorrection.calculate(drive.getHeading(), -targetAngleDegrees), 1, -1);
-      }
-
-    } else {
-      gyroCorrectedRotation = drive.clamp(rotation.getAsDouble(), -1, 1);
-    }
-    
-    drive.arcadeDrive(speed.getAsDouble(), gyroCorrectedRotation);
+  public void initialize() {
+    // drive.resetGyro();
   }
 
   @Override
-  public boolean isFinished() {
-    return false;
+  public void execute() {
+    double finalCalcSteering;
+    boolean isDriverSteering = Math.abs(rotation.getAsDouble()) > 0.2;
+
+    if (isDriverSteering) {
+      finalCalcSteering = rotation.getAsDouble();
+    } else {
+      if (lastIsDriverSteering) {
+        targetAngleDegrees = drive.getHeading();
+      }
+      double unclampedSteer = gyroCorrection.calculate(drive.getHeading(), targetAngleDegrees);
+      finalCalcSteering = drive.clamp(unclampedSteer, -1, 1);
+    }
+    drive.arcadeDrive(speed.getAsDouble(), finalCalcSteering);
+    lastIsDriverSteering = isDriverSteering;
   }
+
 }

@@ -61,15 +61,18 @@ public class RobotContainer {
     new ShooterTrigger(() -> cockpit.getRawAxis(3))
       .toggleWhenActive(new JoystickToShoot(catapult, -0.7));
 
-
     //Y Button to "index" balls by referring to the IR Sensor(s) near the belts.
     new Button(() -> cockpit.getRawButton(4))
       .toggleWhenActive(new SequentialCommandGroup(new JoystickToUpperBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(5)), new JoystickToLowerBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(5))));
 
-    // X button hold to move both belts
-    new Button(() -> cockpit.getRawButton(3))
-      .toggleWhenPressed(new JoystickToMoveBothBelts(cargoBay, -0.5));
+    //left and right bumpers to manually mvoe belts.
+    new Button(() -> cockpit.getRawButton(5))
+      .whenHeld(new JoystickToMoveBothBelts(cargoBay, -0.5));
 
+    new Button(() -> cockpit.getRawButton(6))
+      .whenHeld(new JoystickToMoveBothBelts(cargoBay, 0.5));
+
+    // up and down to control climb
     new POVButton(cockpit, 0)
       .whenHeld(new JoystickToClimb(mount, 0.3));
     
