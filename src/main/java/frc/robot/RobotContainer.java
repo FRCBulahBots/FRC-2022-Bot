@@ -45,7 +45,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     //Default command for our drive system to ALWAYS DRIVE IF WE DON'T ASK ANYTHING ELSE OF IT.
-    landingGear.setDefaultCommand(new JoystickToDriveGyro(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4), landingGear.getHeading()));
+    landingGear.setDefaultCommand(new JoystickToDriveGyro(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4), false));
 
   }
 
@@ -74,10 +74,10 @@ public class RobotContainer {
 
     // up and down to control climb
     new POVButton(cockpit, 0)
-      .whenHeld(new JoystickToClimb(mount, 0.3));
+      .whenHeld(new JoystickToClimb(mount, 0.3, 42));
     
     new POVButton(cockpit, 180)
-      .whenHeld(new JoystickToClimb(mount, -0.3));
+      .whenHeld(new JoystickToClimb(mount, -0.3, -42));
 
     //new Button(() -> cockpit.getRawButton(2))
       //.whenPressed(new JoysticktoDriveEncoded(landingGear, 144));

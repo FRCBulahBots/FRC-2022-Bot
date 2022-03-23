@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.DriveCommands;
 
 import java.util.function.DoubleSupplier;
 
@@ -22,8 +22,7 @@ public class JoystickToDriveGyro extends CommandBase {
   boolean Auton, gyroNeedsReset;
   boolean lastIsDriverSteering;
 
-  public JoystickToDriveGyro(Drivetrain drive, DoubleSupplier speed, DoubleSupplier rotation, double targetAngleDegrees,
-      boolean Auton) {
+  public JoystickToDriveGyro(Drivetrain drive, DoubleSupplier speed, DoubleSupplier rotation, boolean Auton) {
     this.drive = drive;
     this.speed = speed;
     this.rotation = rotation;
