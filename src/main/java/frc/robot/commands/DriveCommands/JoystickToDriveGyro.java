@@ -6,8 +6,6 @@ package frc.robot.commands.DriveCommands;
 
 import java.util.function.DoubleSupplier;
 
-import com.fasterxml.jackson.databind.node.BooleanNode;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
@@ -28,7 +26,6 @@ public class JoystickToDriveGyro extends CommandBase {
     this.rotation = rotation;
     this.Auton = Auton;
 
-    this.targetAngleDegrees = targetAngleDegrees;
     // gyroCorrection.enableContinuousInput(-360, 360);
     addRequirements(drive);
   }
