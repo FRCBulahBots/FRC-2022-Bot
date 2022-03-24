@@ -11,6 +11,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.ProtoClimb;
 import frc.robot.subsystems.Shooter;
+import frc.robot.commands.AutonCommands.AutonCommand;
 import frc.robot.commands.ClimbCommands.JoystickToClimb;
 import frc.robot.commands.DriveCommands.JoystickToDriveGyro;
 import frc.robot.commands.MagazineCommands.JoystickToLowerBelt;
@@ -95,6 +96,6 @@ public class RobotContainer {
   Our Autonomous Command should be here.
   */
   public Command getAutonomousCommand() {
-    return null;
+    return new AutonCommand(landingGear);
   }
 }

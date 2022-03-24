@@ -5,12 +5,13 @@ import frc.robot.subsystems.Drivetrain;
 
 public class RawDriveForwardTimed extends WaitCommand {
 
-    private Drivetrain drive;
-    private double speed;
+    private final Drivetrain drive;
+    private final double speed;
 
-    public RawDriveForwardTimed(double seconds, double speed) {
+    public RawDriveForwardTimed(Drivetrain drive, double seconds, double speed) {
         super(seconds);
-        speed = this.speed;
+        this.drive = drive;
+        this.speed = speed;
     }
     
     @Override
