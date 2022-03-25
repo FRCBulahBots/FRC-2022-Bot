@@ -39,7 +39,7 @@ public class Shooter extends SubsystemBase {
     shooterMotorPID.setP(0.008,0);
     shooterMotorPID.setI(0,0);
     shooterMotorPID.setD(0,0);
-    //shooterMotorPID.setFF(200);
+    //setting max and min values to percent output.
     shooterMotorPID.setOutputRange(-1, 1, 0);
     //setting to coast.
     shooterMotor.setIdleMode(IdleMode.kCoast);

@@ -12,14 +12,21 @@ import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.ProtoClimb;
 import frc.robot.subsystems.Shooter;
 import frc.robot.commands.AutonCommands.AutonCommand;
+import frc.robot.commands.AutonCommands.JoystickToDriveGyro;
 import frc.robot.commands.ClimbCommands.JoystickToClimb;
-import frc.robot.commands.DriveCommands.JoystickToDriveGyro;
+import frc.robot.commands.DriveCommands.JoystickToDrive;
 import frc.robot.commands.MagazineCommands.JoystickToLowerBelt;
 import frc.robot.commands.MagazineCommands.JoystickToMoveBothBelts;
 import frc.robot.commands.MagazineCommands.JoystickToUpperBelt;
+import frc.robot.commands.ShootCommands.JoystickToFeed;
 import frc.robot.commands.ShootCommands.JoystickToShoot;
 import frc.robot.customtriggers.ShooterTrigger;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /*
@@ -36,17 +43,30 @@ public class RobotContainer {
   private final Shooter catapult = new Shooter();
   private final Magazine cargoBay = new Magazine();
   private final ProtoClimb mount = new ProtoClimb();
- 
+  
+  boolean manualBelt;
 
   //Joystick reference.
   private final Joystick cockpit = new Joystick(Constants.usbport);
+
+  SendableChooser<Command> driveTypeChooser = new SendableChooser<>();
+
+  private Command gyroDrive = new JoystickToDriveGyro(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4), false);
+  private Command normalDrive = new JoystickToDrive(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4));
+
 
   public RobotContainer() {
     // Configures the button bindings
     configureButtonBindings();
 
     //Default command for our drive system to ALWAYS DRIVE IF WE DON'T ASK ANYTHING ELSE OF IT.
-    landingGear.setDefaultCommand(new JoystickToDriveGyro(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4), false));
+      //driveTypeChooser.getSelected()
+
+      CameraServer.startAutomaticCapture();
+
+    driveTypeChooser.setDefaultOption("Gyro", gyroDrive);
+    driveTypeChooser.addOption("Normal", normalDrive);
+    Shuffleboard.getTab("Current Drivetype").add(driveTypeChooser);
 
   }
 
@@ -58,37 +78,32 @@ public class RobotContainer {
   */
   private void configureButtonBindings() {
 
+    landingGear.setDefaultCommand(normalDrive);
+    mount.setDefaultCommand(new JoystickToClimb(mount, 168.44, () -> cockpit.getRawButton(6), () -> cockpit.getRawButton(5)));
+
     //Shooter toggle on the right trigger. Press once to enable, and another to disable.
     new ShooterTrigger(() -> cockpit.getRawAxis(3))
       .toggleWhenActive(new JoystickToShoot(catapult, -0.7));
 
+
+    //Belt loader toggle on the left trigger. Press once to enable, and another to disable.
+    new ShooterTrigger(() -> cockpit.getRawAxis(2))
+      .toggleWhenActive(new JoystickToFeed(catapult, -0.3));
+
+    //A and B button to manually control the belt without sensors.  
+    new Button(() -> cockpit.getRawButton(2))
+      .whenHeld(new JoystickToMoveBothBelts(cargoBay, -0.3));
+
+    new Button(() -> cockpit.getRawButton(1))
+      .whenHeld(new JoystickToMoveBothBelts(cargoBay, 0.3));
+
     //Y Button to "index" balls by referring to the IR Sensor(s) near the belts.
-    new Button(() -> cockpit.getRawButton(4))
-      .toggleWhenActive(new SequentialCommandGroup(new JoystickToUpperBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(5)), new JoystickToLowerBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(5))));
-
-    //left and right bumpers to manually mvoe belts.
-    new Button(() -> cockpit.getRawButton(5))
-      .whenHeld(new JoystickToMoveBothBelts(cargoBay, -0.5));
-
-    new Button(() -> cockpit.getRawButton(6))
-      .whenHeld(new JoystickToMoveBothBelts(cargoBay, 0.5));
-
-    // up and down to control climb
-    new POVButton(cockpit, 0)
-      .whenHeld(new JoystickToClimb(mount, 0.3, 42));
+    new Button(() -> cockpit.getRawButton(3))
+      .toggleWhenActive(new SequentialCommandGroup(new JoystickToUpperBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(4)), new JoystickToLowerBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(4))));
     
-    new POVButton(cockpit, 180)
-      .whenHeld(new JoystickToClimb(mount, -0.3, -42));
-
-    //new Button(() -> cockpit.getRawButton(2))
-      //.whenPressed(new JoysticktoDriveEncoded(landingGear, 144));
-    
-    //new Button(() -> cockpit.getRawButton(3))
-      //.whenPressed(new InstantCommand(() -> landingGear.resetEncoder(), landingGear));
     
   
   }
-
   /*
   getAutonomousCommand.
   Also very straight forward in what it does.

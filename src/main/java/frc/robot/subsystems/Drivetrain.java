@@ -24,9 +24,9 @@ These comments are meant for rookies to learn what the basic structure of the Su
 public class Drivetrain extends SubsystemBase {
 
   /*Referencing 4 TalonFXs on Falcon 500s, these motors have their motor controllers on top of motor.*/
-  private WPI_TalonFX leftLeader = new WPI_TalonFX(Constants.leftMasterDriveID);
-  private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.rightMasterDriveID);
-  private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.leftFollowerDriveID);
+  private WPI_TalonFX leftLeader = new WPI_TalonFX(7);
+  private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.leftFollowerDriveID);
+  private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.rightMasterDriveID);
   private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.rightFollowerDriveID);
 
   
@@ -98,7 +98,7 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("LeftEncoderValue", this.checkTestEncoder());
+    //SmartDashboard.putNumber("LeftEncoderValue", this.checkTestEncoder());
     SmartDashboard.putNumber("GyroData", pigeonGyro.getYaw());
   }
 
