@@ -19,7 +19,6 @@ public class JoystickToUpperBelt extends CommandBase {
 
     @Override
     public void end(boolean interrupted) { 
-    
         mag.setBelt1(0);
     }
 

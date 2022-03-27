@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ProtoClimb extends SubsystemBase{
+public class Climb extends SubsystemBase{
 
     private CANSparkMax climb = new CANSparkMax(Constants.armMotorID, MotorType.kBrushless);
 
-    public ProtoClimb(){
+    public Climb(){
         climb.setIdleMode(IdleMode.kBrake);
     }
 

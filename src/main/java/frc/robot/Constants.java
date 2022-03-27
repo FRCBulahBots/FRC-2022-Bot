@@ -15,7 +15,7 @@ package frc.robot;
 public final class Constants {
 
     //Can IDs for DriveMotors
-    public static int leftMasterDriveID = 0;
+    public static int leftMasterDriveID = 10;
     public static int leftFollowerDriveID = 1;
     public static int rightMasterDriveID = 2;
     public static int rightFollowerDriveID = 3;
@@ -29,7 +29,7 @@ public final class Constants {
 
     //Gyro ID
     public static int gyroID = 9;
-    public static int climbID = 10;
+    //public static int climbID = 10;
 
     //Joystick Port
     public static int usbport = 0;
@@ -38,8 +38,8 @@ public final class Constants {
     public static int PWNTest = 2;
 
     //DIO Ports
-    public static int laser1port = 0;
-    public static int laser2port = 1;
+    public static int laser1port = 8;
+    public static int laser2port = 9;
 
 
 }

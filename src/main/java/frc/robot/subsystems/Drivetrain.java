@@ -24,14 +24,10 @@ These comments are meant for rookies to learn what the basic structure of the Su
 public class Drivetrain extends SubsystemBase {
 
   /*Referencing 4 TalonFXs on Falcon 500s, these motors have their motor controllers on top of motor.*/
-  private WPI_TalonFX leftLeader = new WPI_TalonFX(7);
+  private WPI_TalonFX leftLeader = new WPI_TalonFX(Constants.leftMasterDriveID);
   private WPI_TalonFX leftFollower = new WPI_TalonFX(Constants.leftFollowerDriveID);
   private WPI_TalonFX rightLeader = new WPI_TalonFX(Constants.rightMasterDriveID);
   private WPI_TalonFX rightFollower = new WPI_TalonFX(Constants.rightFollowerDriveID);
-
-  
-  private WPI_TalonFX testMotor = new WPI_TalonFX(11);
-  //change ID please
 
   /*Gyro, which we read values to */
   private Pigeon2 pigeonGyro = new Pigeon2(Constants.gyroID);
@@ -75,25 +71,6 @@ public class Drivetrain extends SubsystemBase {
   public void setGyro(double value){
     pigeonGyro.setYaw(value);
   }
-  
-  public void setTest(double speed){
-    testMotor.set(ControlMode.PercentOutput, speed);
-  }
-
-
-  /*method to check encoder values.
-  as of this commit, this is on a test motor, not drivetrain motors.*/
-  public double checkTestEncoder(){
-    return testMotor.getSelectedSensorPosition();
-  }
-  
-  /*method to change encoder values.
-  mainly used to reset encoders to 0, as to reset distance travelled by the bot.
-  as of this commit, this is on a test motor, not drivetrain motors.*/
-  public void resetEncoder(){
-    testMotor.setSelectedSensorPosition(0);
-  }
-
   
 
   @Override

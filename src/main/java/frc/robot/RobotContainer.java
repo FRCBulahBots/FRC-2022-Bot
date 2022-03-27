@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Magazine;
-import frc.robot.subsystems.ProtoClimb;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Shooter;
 import frc.robot.commands.AutonCommands.AutonCommand;
 import frc.robot.commands.AutonCommands.JoystickToDriveGyro;
@@ -42,7 +42,7 @@ public class RobotContainer {
   private final Drivetrain landingGear = new Drivetrain();
   private final Shooter catapult = new Shooter();
   private final Magazine cargoBay = new Magazine();
-  private final ProtoClimb mount = new ProtoClimb();
+  private final Climb mount = new Climb();
   
   boolean manualBelt;
 
@@ -59,14 +59,11 @@ public class RobotContainer {
     // Configures the button bindings
     configureButtonBindings();
 
-    //Default command for our drive system to ALWAYS DRIVE IF WE DON'T ASK ANYTHING ELSE OF IT.
-      //driveTypeChooser.getSelected()
+      CameraServer.startAutomaticCapture(0);
+      CameraServer.startAutomaticCapture(1);
 
-      CameraServer.startAutomaticCapture();
+    SmartDashboard.putBoolean("Gyro Active", gyroDrive.isScheduled());
 
-    driveTypeChooser.setDefaultOption("Gyro", gyroDrive);
-    driveTypeChooser.addOption("Normal", normalDrive);
-    Shuffleboard.getTab("Current Drivetype").add(driveTypeChooser);
 
   }
 
@@ -78,28 +75,32 @@ public class RobotContainer {
   */
   private void configureButtonBindings() {
 
+    //Default command for our drive system to ALWAYS DRIVE IF WE DON'T ASK ANYTHING ELSE OF IT.
     landingGear.setDefaultCommand(normalDrive);
+
     mount.setDefaultCommand(new JoystickToClimb(mount, 168.44, () -> cockpit.getRawButton(6), () -> cockpit.getRawButton(5)));
 
     //Shooter toggle on the right trigger. Press once to enable, and another to disable.
     new ShooterTrigger(() -> cockpit.getRawAxis(3))
-      .toggleWhenActive(new JoystickToShoot(catapult, -0.7));
-
+      .toggleWhenActive(new JoystickToShoot(catapult, -0.9));
 
     //Belt loader toggle on the left trigger. Press once to enable, and another to disable.
     new ShooterTrigger(() -> cockpit.getRawAxis(2))
-      .toggleWhenActive(new JoystickToFeed(catapult, -0.3));
+      .whileActiveContinuous(new JoystickToFeed(catapult, -1.0));
 
     //A and B button to manually control the belt without sensors.  
     new Button(() -> cockpit.getRawButton(2))
-      .whenHeld(new JoystickToMoveBothBelts(cargoBay, -0.3));
+      .toggleWhenPressed(new JoystickToMoveBothBelts(cargoBay, 0.5));
 
     new Button(() -> cockpit.getRawButton(1))
-      .whenHeld(new JoystickToMoveBothBelts(cargoBay, 0.3));
+      .toggleWhenPressed(new JoystickToMoveBothBelts(cargoBay, -0.5));
 
     //Y Button to "index" balls by referring to the IR Sensor(s) near the belts.
     new Button(() -> cockpit.getRawButton(3))
       .toggleWhenActive(new SequentialCommandGroup(new JoystickToUpperBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(4)), new JoystickToLowerBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(4))));
+    
+    new Button(() -> cockpit.getRawButton(7))
+      .toggleWhenPressed(gyroDrive);
     
     
   

@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
     //super(new PIDController(0.008, 0, 0));
 
 
-    shooterMotorPID.setP(0.008,0);
+    shooterMotorPID.setP(0.0003,0);
     shooterMotorPID.setI(0,0);
     shooterMotorPID.setD(0,0);
     //setting max and min values to percent output.
@@ -45,7 +45,7 @@ public class Shooter extends SubsystemBase {
     shooterMotor.setIdleMode(IdleMode.kCoast);
 
     //ensuring the motor recieves the terms we give through code.
-    shooterMotor.burnFlash();
+    //shooterMotor.burnFlash();
 
   }
 
@@ -55,26 +55,26 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("ShooterRPM", shooterMotor.getEncoder().getVelocity());
   }
 
-  /*
-  public void setShooterMotorWithPID(double speedToSet){
+  
+  public void setShooterMotorWithPID(double setpoint){
     //speedToSet is a value b/w 1 and -1, we turn that into a certain percent output...
-    double setpoint = speedToSet / 5676;
     //... and set the Motor to aim for that RPM.
     shooterMotorPID.setReference(setpoint, CANSparkMax.ControlType.kDutyCycle, 0);
   }
-  */
+
+  public void beltLoaderVroom(double setToSpeed){
+    beltLoader.set(setToSpeed);
+  }
+
+  
   
   //Basic Setter Method for Shooter Speed.
   public void setShooter(double speedToSet){
     shooterMotor.set(speedToSet);
   }
   
-
-  public void beltLoaderVroom(double setToSpeed){
-    beltLoader.set(setToSpeed);
-  }
-
   /*
+
   @Override
   protected void useOutput(double output, double setpoint) {
     shooterMotor.set(output);

@@ -14,8 +14,8 @@ public class JoystickToLowerBelt extends CommandBase{
 
     @Override
     public void initialize() {
-        mag.setBelt1(-0.3);
-        mag.setBelt2(-0.3);
+        mag.setBelt1(-0.5);
+        mag.setBelt2(-0.5);
     }
 
     @Override
