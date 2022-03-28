@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.hal.MatchInfoData;
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -19,6 +21,7 @@ private WPI_TalonSRX belt2 = new WPI_TalonSRX(Constants.belt2ID);
 
 private DigitalInput laser1 = new DigitalInput(Constants.laser1port);
 private DigitalInput laser2 = new DigitalInput(Constants.laser2port);
+private Debouncer debouncer = new Debouncer(0.1, DebounceType.kBoth);
 
 private AddressableLED leds = new AddressableLED(0);
 private AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(60);
@@ -78,11 +81,11 @@ public void setBelt2(double speed){
 }
 
 public boolean getLaser1State(){
-    return !(laser1.get());
+    return debouncer.calculate(!laser1.get());
 }
 
 public boolean getLaser2State(){
-    return !(laser2.get());
+    return debouncer.calculate(!(laser2.get()));
 }
 
 }

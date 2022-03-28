@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 //Custom "trigger" subclass to make the Joystick trigger a button rather than an axis.
 //These comments are meant to help rookies understand this particular subclass works.
 
-public class ShooterTrigger extends Trigger{
+public class TriggerToAnalog extends Trigger{
     //we only need the trigger value of what specific trigger we need so we reference only that.
     private DoubleSupplier triggerValue;
 
 //Constructor method assigns our triggerValue to a specific trigger value we want.
-public ShooterTrigger(DoubleSupplier triggerValue){
+public TriggerToAnalog(DoubleSupplier triggerValue){
     this.triggerValue = triggerValue;
 }
 
