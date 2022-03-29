@@ -6,7 +6,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.Climb;
@@ -23,7 +22,6 @@ import frc.robot.commands.ShootCommands.JoystickToFeed;
 import frc.robot.commands.ShootCommands.JoystickToShoot;
 import frc.robot.customtriggers.TriggerToAnalog;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -98,11 +96,11 @@ public class RobotContainer {
 
     //Y Button to "index" balls by referring to the IR Sensor(s) near the belts.
     new Button(() -> cockpit.getRawButton(3))
-      .toggleWhenActive(new JoystickToContinuouslyIndexMagazine(cargoBay, () -> cockpit.getRawButton(4)));
-      //.toggleWhenActive(new SequentialCommandGroup(new JoystickToUpperBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(4)), new JoystickToLowerBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(4))));
+      //.toggleWhenActive(new JoystickToContinuouslyIndexMagazine(cargoBay, () -> cockpit.getRawButton(4)));
+      .toggleWhenActive(new SequentialCommandGroup(new JoystickToUpperBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(4)), new JoystickToLowerBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(4))));
     
-    new Button(() -> cockpit.getRawButton(7))
-      .toggleWhenPressed(gyroDrive);
+    //new Button(() -> cockpit.getRawButton(7))
+     // .toggleWhenPressed(gyroDrive);
     
     
   

@@ -7,8 +7,6 @@ package frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.Drivetrain;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
-
 /* 
 This "JoystickToDrive" command was written to connect the Joystick inputs to the Drivetrain subsystem.
 It uses the arcadeDrive method from DifferentialDrive in Drivetrain to control the motors of the drivetrain.
@@ -40,12 +38,34 @@ public class JoystickToDrive extends CommandBase {
   @Override
   public void initialize() {}
 
+  private static double clamp(double val, double min, double max){
+    return Math.max(min, Math.min(max, val));
+  }
+
   //Execute method
   //This method is CONTINUALLY called. Meaning it's used for adjusting to constantly changing inputs
   //Ex. Using the output of a control loop, or in this use case: matching joystick inputs. 
   @Override
   public void execute() {
-    landing_gear.arcadeDrive(joyspeed.getAsDouble(), -joyrotation.getAsDouble());
+    //double forward = Math.pow(joyspeed.getAsDouble(), 2);
+    // Scaling function doesn't work with negative numbers.
+    double rawInput = joyspeed.getAsDouble();
+    // Driver would like for reverse to be linear & scaled down for fine control of input
+    double rawTurn = joyrotation.getAsDouble();
+    double turn = Math.pow(rawTurn, 2);
+    double driveOutputFinal = Math.pow(rawInput, 2);
+    // input mapping will always return a postive integer
+    if(rawInput > 0){
+      driveOutputFinal = -driveOutputFinal;
+    }
+    if(rawTurn > 0) {
+      turn = -turn;
+    }
+    // throwing the robot in reverse too quickly has a high likelyhood of
+    // causing us to flip. a 55% top 'reverse' speed allows us to be on the tipping point
+    driveOutputFinal = clamp(driveOutputFinal, -0.55, 0.8);
+    turn = clamp(turn, -0.6, 0.6);
+    landing_gear.arcadeDrive(-driveOutputFinal, turn);
   }
 
   //End method

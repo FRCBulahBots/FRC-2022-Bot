@@ -43,6 +43,8 @@ public class JoystickToContinuouslyIndexMagazine extends CommandBase{
         bottomBelt = mag.getLaser1State();
     }
 
+    
+
     @Override
     public void end(boolean interrupted) {
         mag.setBothBelts(0);

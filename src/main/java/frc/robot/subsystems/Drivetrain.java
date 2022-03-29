@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -56,8 +55,9 @@ public class Drivetrain extends SubsystemBase {
 
   /*main Driving method; takes two doubles and does a lot of math to figure out a combination of motor speeds*/
   public void arcadeDrive(double speed, double rotation){
-    drive.arcadeDrive(0.7 * speed, 0.7 * rotation);
+    drive.arcadeDrive(0.9 * speed, 0.9 * rotation);
   }
+
 
   /*method to return the turning "angle" of the bot. 
   Yaw (rotation along the vertical axis of the bot) / 360 = some value we don't care about as much as:
