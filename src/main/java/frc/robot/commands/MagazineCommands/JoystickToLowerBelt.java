@@ -3,7 +3,7 @@ package frc.robot.commands.MagazineCommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Magazine;
 
-public class JoystickToLowerBelt extends CommandBase{
+public class JoystickToLowerBelt extends CommandBase {
     
     public Magazine mag;
 
@@ -14,19 +14,21 @@ public class JoystickToLowerBelt extends CommandBase{
 
     @Override
     public void initialize() {
-        mag.setBelt1(-0.5);
-        mag.setBelt2(-0.5);
+
     }
 
+
+    
     @Override
     public void end(boolean interrupted) { 
-        mag.setBelt2(0);
+        mag.setBelt1(0);
     }
 
     @Override
     public boolean isFinished() {
-        return mag.getLaser2State();
+        return mag.getLaser1State();
     }
+
 
 
 

@@ -18,14 +18,10 @@ public class Magazine extends SubsystemBase {
 
 private WPI_TalonSRX belt1 = new WPI_TalonSRX(Constants.belt1ID);
 private WPI_TalonSRX belt2 = new WPI_TalonSRX(Constants.belt2ID);
+private WPI_TalonSRX beltLoader = new WPI_TalonSRX(Constants.beltLoaderID);
 
 private DigitalInput laser1 = new DigitalInput(Constants.laser1port);
 private DigitalInput laser2 = new DigitalInput(Constants.laser2port);
-private Debouncer debouncer = new Debouncer(0.1, DebounceType.kBoth);
-
-private AddressableLED leds = new AddressableLED(0);
-private AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(60);
-int red, blue, green;
 
 public Magazine(){
     belt1.setInverted(true);
@@ -33,42 +29,22 @@ public Magazine(){
  
 @Override
 public void periodic() {
-    SmartDashboard.putBoolean("Ball in Lower Belt?", laser1.get());
-    SmartDashboard.putBoolean("Ball in Upper Belt?", laser2.get());
+    SmartDashboard.putBoolean("Ball in Lower Belt?", this.getLaser1State());
+    SmartDashboard.putBoolean("Ball in Upper Belt?", this.getLaser2State());
 
     SmartDashboard.putNumber("Lower Belt Status:", belt1.get());
     SmartDashboard.putNumber("Upper Belt Status:", belt2.get());
 
-    /*
-    Alliance alliance = DriverStation.getAlliance();
 
-    switch(alliance){
-        case Red: 
-            red = 100;
-            green = 0;
-            blue = 0;
-            break;
-        case Blue:
-            red = 0;
-            green = 0;
-            blue = 100;
-            break;
-        default:
-            break;
-    }
-
-    for (var i = 0; i < ledBuffer.getLength(); i++){
-        ledBuffer.setRGB(i, red, green, blue);
-    }
-
-    leds.setData(ledBuffer);
-
-    */
 }
 
+public void beltLoaderVroom(double setToSpeed){
+    beltLoader.set(setToSpeed);
+  }
+
 public void setBothBelts(double speed){
-    belt1.set(speed);
     belt2.set(speed);
+    belt1.set(speed);
 }
 
 
@@ -81,11 +57,11 @@ public void setBelt2(double speed){
 }
 
 public boolean getLaser1State(){
-    return debouncer.calculate(!laser1.get());
+    return !laser1.get();
 }
 
 public boolean getLaser2State(){
-    return debouncer.calculate(!(laser2.get()));
+    return !laser2.get();
 }
 
 }

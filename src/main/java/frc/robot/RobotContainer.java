@@ -5,6 +5,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Magazine;
@@ -15,10 +16,10 @@ import frc.robot.commands.AutonCommands.JoystickToDriveGyro;
 import frc.robot.commands.ClimbCommands.JoystickToClimb;
 import frc.robot.commands.DriveCommands.JoystickToDrive;
 import frc.robot.commands.MagazineCommands.JoystickToContinuouslyIndexMagazine;
+import frc.robot.commands.MagazineCommands.JoystickToFeed;
 import frc.robot.commands.MagazineCommands.JoystickToLowerBelt;
 import frc.robot.commands.MagazineCommands.JoystickToMoveBothBelts;
 import frc.robot.commands.MagazineCommands.JoystickToUpperBelt;
-import frc.robot.commands.ShootCommands.JoystickToFeed;
 import frc.robot.commands.ShootCommands.JoystickToShoot;
 import frc.robot.customtriggers.TriggerToAnalog;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -26,7 +27,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 /*
 The Robot Container class is where all joysticks, subsystems, commands, and anything related to the Robot should be put in.
@@ -46,12 +48,13 @@ public class RobotContainer {
   boolean manualBelt;
 
   //Joystick reference.
-  private final Joystick cockpit = new Joystick(Constants.usbport);
+  //private final Joystick cockpit = new Joystick(Constants.usbport);
+  public final PS4Controller cockpit = new PS4Controller(Constants.usbport);
 
   SendableChooser<Command> driveTypeChooser = new SendableChooser<>();
 
-  private Command gyroDrive = new JoystickToDriveGyro(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4), false);
-  private Command normalDrive = new JoystickToDrive(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(4));
+  private Command gyroDrive = new JoystickToDriveGyro(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(2), false);
+  private Command normalDrive = new JoystickToDrive(landingGear, () -> cockpit.getRawAxis(1), () -> cockpit.getRawAxis(2), false);
 
 
   public RobotContainer() {
@@ -60,10 +63,6 @@ public class RobotContainer {
 
       CameraServer.startAutomaticCapture(0);
       CameraServer.startAutomaticCapture(1);
-
-    SmartDashboard.putBoolean("Gyro Active", gyroDrive.isScheduled());
-
-
   }
 
   /*
@@ -80,24 +79,28 @@ public class RobotContainer {
     mount.setDefaultCommand(new JoystickToClimb(mount, 168.44, () -> cockpit.getRawButton(6), () -> cockpit.getRawButton(5)));
 
     //Shooter toggle on the right trigger. Press once to enable, and another to disable.
-    new TriggerToAnalog(() -> cockpit.getRawAxis(3))
+    new TriggerToAnalog(() -> cockpit.getRawAxis(4))
       .toggleWhenActive(new JoystickToShoot(catapult, -0.9));
 
+      //.alongWith(new StartEndCommand(() -> cockpit.set, onEnd, requirements))
+      //cockpit.setRumble(RumbleType.kRightRumble, value);
+    
     //Belt loader toggle on the left trigger. Press once to enable, and another to disable.
-    new TriggerToAnalog(() -> cockpit.getRawAxis(2))
-      .whileActiveContinuous(new JoystickToFeed(catapult, -1.0));
+    //new TriggerToAnalog(() -> cockpit.getRawAxis(3))
+      //.whileActiveContinuous(new JoystickToFeed(cargoBay, -1.0));
+  
 
     //A and B button to manually control the belt without sensors.  
-    new Button(() -> cockpit.getRawButton(2))
+    new Button(() -> cockpit.getRawButton(4))
       .toggleWhenPressed(new JoystickToMoveBothBelts(cargoBay, 0.5));
 
-    new Button(() -> cockpit.getRawButton(1))
+    new Button(() -> cockpit.getRawButton(2))
       .toggleWhenPressed(new JoystickToMoveBothBelts(cargoBay, -0.5));
 
     //Y Button to "index" balls by referring to the IR Sensor(s) near the belts.
-    new Button(() -> cockpit.getRawButton(3))
-      //.toggleWhenActive(new JoystickToContinuouslyIndexMagazine(cargoBay, () -> cockpit.getRawButton(4)));
-      .toggleWhenActive(new SequentialCommandGroup(new JoystickToUpperBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(4)), new JoystickToLowerBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(4))));
+    new Button(() -> cockpit.getRawButton(1))
+      .whenPressed(new JoystickToContinuouslyIndexMagazine(cargoBay, () -> cockpit.getRawAxis(3) <= .6));
+      //.whenPressed(new SequentialCommandGroup(new JoystickToUpperBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(4)), new JoystickToLowerBelt(cargoBay).withInterrupt(() -> cockpit.getRawButton(4))));
     
     //new Button(() -> cockpit.getRawButton(7))
      // .toggleWhenPressed(gyroDrive);

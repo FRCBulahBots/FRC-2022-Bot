@@ -26,7 +26,7 @@ public class Shooter extends SubsystemBase {
   //Referencing and instantiating a single SparkMax, the motor controller for the Neo.
   private final CANSparkMax shooterMotor = new CANSparkMax (Constants.shooterMotorID, MotorType.kBrushless);
   private SparkMaxPIDController shooterMotorPID = shooterMotor.getPIDController();
-  private WPI_TalonSRX beltLoader = new WPI_TalonSRX(Constants.beltLoaderID);
+  
 
   public Shooter() {
     //This motor is special since we want some PID control to it.
@@ -61,12 +61,6 @@ public class Shooter extends SubsystemBase {
     //... and set the Motor to aim for that RPM.
     shooterMotorPID.setReference(setpoint, CANSparkMax.ControlType.kDutyCycle, 0);
   }
-
-  public void beltLoaderVroom(double setToSpeed){
-    beltLoader.set(setToSpeed);
-  }
-
-  
   
   //Basic Setter Method for Shooter Speed.
   public void setShooter(double speedToSet){

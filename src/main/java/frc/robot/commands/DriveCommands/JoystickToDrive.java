@@ -7,6 +7,7 @@ package frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.Drivetrain;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 /* 
 This "JoystickToDrive" command was written to connect the Joystick inputs to the Drivetrain subsystem.
 It uses the arcadeDrive method from DifferentialDrive in Drivetrain to control the motors of the drivetrain.
@@ -19,14 +20,15 @@ public class JoystickToDrive extends CommandBase {
   private final Drivetrain landing_gear;
   private DoubleSupplier joyspeed;
   private DoubleSupplier joyrotation;
+  private boolean Auton;
 
 
   //Constructor with references of the drivetrain and joystick suppliers.
-  public JoystickToDrive(Drivetrain landing_gear, DoubleSupplier joyspeed, DoubleSupplier joyrotation) {
+  public JoystickToDrive(Drivetrain landing_gear, DoubleSupplier joyspeed, DoubleSupplier joyrotation, boolean Auton) {
     this.landing_gear = landing_gear;
     this.joyspeed = joyspeed;
     this.joyrotation = joyrotation;
-
+    this.Auton = Auton;
     //Forcing the computer to check if this subsystem is ready and able to be used.
     addRequirements(landing_gear);
   }
@@ -47,6 +49,12 @@ public class JoystickToDrive extends CommandBase {
   //Ex. Using the output of a control loop, or in this use case: matching joystick inputs. 
   @Override
   public void execute() {
+    if(Auton){
+      landing_gear.setDriveType(NeutralMode.Brake);
+    } else{
+      landing_gear.setDriveType(NeutralMode.Coast);
+    }
+
     //double forward = Math.pow(joyspeed.getAsDouble(), 2);
     // Scaling function doesn't work with negative numbers.
     double rawInput = joyspeed.getAsDouble();
@@ -72,7 +80,9 @@ public class JoystickToDrive extends CommandBase {
   //This method is called ONLY ONCE, but ONLY AFTER THE COMMAND IS INTERRUPTED OR ENDS. Meaning it's used for one-time actions after the command is over.
   //Ex. Resetting solenoids, motors, and actuators.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    landing_gear.setDriveType(NeutralMode.Coast);
+  }
 
 
   //IsFinished method

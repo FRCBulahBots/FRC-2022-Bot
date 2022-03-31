@@ -20,7 +20,7 @@ public class Climb extends SubsystemBase{
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Climb encoder value", this.getClimberEncoder());   
+        SmartDashboard.putNumber("Climb Encoder", this.getClimberEncoder());   
     }
     public void setClimbState(double speedToSet){
         climb.set(speedToSet);

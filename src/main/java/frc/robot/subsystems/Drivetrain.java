@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -51,6 +52,13 @@ public class Drivetrain extends SubsystemBase {
   }
 
   /* end of constructor method */
+
+  public void setDriveType(NeutralMode neutral){
+    leftLeader.setNeutralMode(neutral);
+    rightLeader.setNeutralMode(neutral);
+    leftFollower.setNeutralMode(neutral);
+    rightFollower.setNeutralMode(neutral);
+  }
 
 
   /*main Driving method; takes two doubles and does a lot of math to figure out a combination of motor speeds*/

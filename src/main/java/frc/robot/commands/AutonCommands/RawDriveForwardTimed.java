@@ -16,7 +16,7 @@ public class RawDriveForwardTimed extends WaitCommand {
     
     @Override
     public void execute() {
-        drive.arcadeDrive(speed, 0);
+        drive.arcadeDrive(-1, 0);
     }
 
     @Override

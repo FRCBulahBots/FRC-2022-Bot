@@ -11,36 +11,34 @@ public class JoystickToContinuouslyIndexMagazine extends CommandBase{
     
     Magazine mag;
     boolean topBelt, bottomBelt;
-    BooleanSupplier reverse;
+    BooleanSupplier feed;
     
-    public JoystickToContinuouslyIndexMagazine(Magazine mag, BooleanSupplier reverse){
+    public JoystickToContinuouslyIndexMagazine(Magazine mag, BooleanSupplier feed){
         this.mag = mag;
-        this.reverse = reverse;
+        this.feed = feed;
         addRequirements(mag);
     }
     
  
     @Override
     public void execute() {
-        if(topBelt && !reverse.getAsBoolean()){
+        if (!feed.getAsBoolean()){
+            mag.setBelt2(-0.5);
+            mag.setBelt1(-0.5);
+            mag.beltLoaderVroom(-.9);
+            return; 
+        }     
+        if(topBelt && feed.getAsBoolean()){
             if(bottomBelt){
-                mag.setBelt2(0);
-                return;
+                mag.setBelt1(0);
             }
             mag.setBelt2(0);
-            return;
-        } 
-
-
-        if (reverse.getAsBoolean()){
-            mag.setBelt2(0.5);
-            mag.setBelt1(0.5);
-            return;
-        }     
-
-        mag.setBothBelts(-0.5);
-        topBelt = mag.getLaser2State();
+        } else {
+            mag.setBothBelts(-0.5);
+            mag.beltLoaderVroom(0);
+        }        
         bottomBelt = mag.getLaser1State();
+        topBelt = mag.getLaser2State();
     }
 
     
