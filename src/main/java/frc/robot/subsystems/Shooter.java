@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
     //super(new PIDController(0.008, 0, 0));
 
 
-    shooterMotorPID.setP(0.0003,0);
+    shooterMotorPID.setP(0.0085,0);
     shooterMotorPID.setI(0,0);
     shooterMotorPID.setD(0,0);
     //setting max and min values to percent output.
@@ -53,8 +53,12 @@ public class Shooter extends SubsystemBase {
   public void periodic() { 
     //Reports the ShooterRPM to ShuffleBoard
     SmartDashboard.putNumber("ShooterRPM", shooterMotor.getEncoder().getVelocity());
+    SmartDashboard.putBoolean("Shooter Ready", shooterMotor.getEncoder().getVelocity() <= -4800);
   }
 
+  public double getShooter(){
+    return shooterMotor.getEncoder().getVelocity();
+  }
   
   public void setShooterMotorWithPID(double setpoint){
     //speedToSet is a value b/w 1 and -1, we turn that into a certain percent output...

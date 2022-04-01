@@ -20,35 +20,36 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  /*
   int red, blue, green;
   AddressableLED leds = new AddressableLED(0);
   AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(60);
-
+  */
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-/*
+
     //Alliance alliance = DriverStation.getAlliance();
 
+    /*
     for (var i = 0; i < ledBuffer.getLength(); i++){
       ledBuffer.setRGB(i, 0, 0, 255);
     }
     leds.setData(ledBuffer);
     leds.setLength(ledBuffer.getLength());
     leds.start();
-*/
+    */
   }
 
   @Override
   public void robotPeriodic() {
+    
     /*
     for (var i = 0; i < ledBuffer.getLength(); i++){
       ledBuffer.setRGB(i, 0, 0, 255);
     }
     leds.setData(ledBuffer);
     */
-
-    SmartDashboard.putNumber("JoystickTrigger Value", m_robotContainer.cockpit.getRawAxis(3));
 
     CommandScheduler.getInstance().run();
   }

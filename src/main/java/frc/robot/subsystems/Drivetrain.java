@@ -7,7 +7,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.Pigeon2;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -33,6 +37,9 @@ public class Drivetrain extends SubsystemBase {
   private Pigeon2 pigeonGyro = new Pigeon2(Constants.gyroID);
   
   
+  private ShuffleboardTab tab = Shuffleboard.getTab("Trim");
+  private NetworkTableEntry trim = tab.add("Trim", -0.041).getEntry();
+
   /*Differential Drive class which relates two motors to inputs.
   Here we only control the leaders with the DifferentialDrive object.*/
   private DifferentialDrive drive = new DifferentialDrive(leftLeader, rightLeader);
@@ -53,17 +60,38 @@ public class Drivetrain extends SubsystemBase {
 
   /* end of constructor method */
 
-  public void setDriveType(NeutralMode neutral){
-    leftLeader.setNeutralMode(neutral);
-    rightLeader.setNeutralMode(neutral);
-    leftFollower.setNeutralMode(neutral);
-    rightFollower.setNeutralMode(neutral);
+  public void setDriveType(NeutralMode driveMode){
+    leftLeader.setNeutralMode(driveMode);
+    rightLeader.setNeutralMode(driveMode);
+    leftFollower.setNeutralMode(driveMode);
+    rightFollower.setNeutralMode(driveMode);
+  }
+  
+  public void setAllNeutralOutput(){
+    leftLeader.neutralOutput();
+    rightLeader.neutralOutput();
+    leftFollower.neutralOutput();
+    rightFollower.neutralOutput();
+  }
+
+  public void resetEncoders(){
+    leftLeader.setSelectedSensorPosition(0);
+    rightLeader.setSelectedSensorPosition(0);
+  }
+
+  public double getLeftEncoder(){
+    return leftLeader.getSelectedSensorPosition();
+  }
+
+  public double getRightEncoder(){
+    return rightLeader.getSelectedSensorPosition();
   }
 
 
   /*main Driving method; takes two doubles and does a lot of math to figure out a combination of motor speeds*/
   public void arcadeDrive(double speed, double rotation){
-    drive.arcadeDrive(0.9 * speed, 0.9 * rotation);
+    double trimAdjustedRot = (rotation + trim.getDouble(-0.044));
+    drive.arcadeDrive(0.9 * speed, 0.9 * this.clamp(trimAdjustedRot, -1, 1));
   }
 
 
